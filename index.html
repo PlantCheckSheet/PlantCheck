@@ -24,7 +24,7 @@
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.62)),
         url("excavator.jpg");
       background-size: cover;
       background-position: center;
@@ -34,13 +34,16 @@
     }
 
     .app-header {
-      background: #f4b400;
+      background: rgba(244, 180, 0, 0.82);
       color: #111;
       padding: 18px;
       text-align: center;
       font-weight: 700;
       font-size: 22px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
     }
 
     .container {
@@ -50,18 +53,20 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.78);
       color: #333;
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      backdrop-filter: blur(3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.30);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.38);
     }
 
     .card h2 {
       margin-top: 0;
-      border-bottom: 2px solid #f4b400;
+      border-bottom: 2px solid rgba(244, 180, 0, 0.9);
       padding-bottom: 8px;
     }
 
@@ -75,10 +80,17 @@
       width: 100%;
       padding: 12px;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(0,0,0,0.12);
       margin-top: 4px;
       margin-bottom: 12px;
       font-size: 15px;
+      background: rgba(255,255,255,0.82);
+      color: #222;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #666;
     }
 
     .check-item {
@@ -87,7 +99,7 @@
       align-items: center;
       gap: 12px;
       padding: 12px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
     .check-title {
@@ -109,6 +121,7 @@
       cursor: pointer;
       min-width: 78px;
       transition: opacity 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
     .btn-group button:active {
@@ -131,18 +144,21 @@
 
     .submit-btn {
       width: 100%;
-      background: #f4b400;
-      border: none;
+      background: rgba(244, 180, 0, 0.88);
+      border: 1px solid rgba(255,255,255,0.28);
       padding: 16px;
       border-radius: 10px;
       font-size: 18px;
       font-weight: 700;
       cursor: pointer;
       color: #111;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
 
     .submit-btn:hover {
-      background: #ffcc33;
+      background: rgba(255, 204, 51, 0.92);
     }
 
     .photo-preview {
@@ -155,18 +171,28 @@
     .footer {
       text-align: center;
       font-size: 12px;
-      opacity: 0.8;
+      opacity: 0.9;
       padding: 12px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .note {
       font-size: 13px;
-      color: #666;
+      color: #555;
       margin-top: -6px;
       margin-bottom: 12px;
     }
 
     @media (max-width: 640px) {
+      .container {
+        padding: 14px;
+      }
+
+      .card {
+        background: rgba(255,255,255,0.72);
+        padding: 16px;
+      }
+
       .check-item {
         flex-direction: column;
         align-items: stretch;
@@ -328,7 +354,7 @@
           position: fixed;
           inset: 0;
           background:
-            linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+            linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.62)),
             url("${image}");
           background-size: cover;
           background-position: center;
