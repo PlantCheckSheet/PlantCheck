@@ -25,7 +25,7 @@
       inset: 0;
       background:
         linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
-        url("images/excavator.jpg");
+        url("excavator.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -108,6 +108,11 @@
       font-weight: 700;
       cursor: pointer;
       min-width: 78px;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-group button:active {
+      transform: scale(0.98);
     }
 
     .ok {
@@ -298,40 +303,46 @@
 
   <script>
     const plantImages = {
-      Excavator: "images/excavator.jpg",
-      Dumper: "images/dumper.jpg",
-      Roller: "images/roller.jpg"
+      Excavator: "excavator.jpg",
+      Dumper: "dumper.jpg",
+      Roller: "roller.jpg"
     };
 
-    const bodyBg = document.body;
     const plantTypeSelect = document.getElementById("plantType");
     const photoUpload = document.getElementById("photoUpload");
     const preview = document.getElementById("preview");
     const inspectionForm = document.getElementById("inspectionForm");
 
-    plantTypeSelect.addEventListener("change", function () {
-      const type = this.value;
-      const image = plantImages[type] || "images/excavator.jpg";
+    function updateBackground(image) {
+      let dynamicStyle = document.getElementById("dynamic-bg-style");
 
-      document.body.style.setProperty("--bg-image", `url("${image}")`);
-      document.body.querySelector("style")?.remove();
+      if (!dynamicStyle) {
+        dynamicStyle = document.createElement("style");
+        dynamicStyle.id = "dynamic-bg-style";
+        document.head.appendChild(dynamicStyle);
+      }
 
-      const pseudoStyle = document.getElementById("dynamic-bg-style");
-      if (pseudoStyle) pseudoStyle.remove();
-
-      const style = document.createElement("style");
-      style.id = "dynamic-bg-style";
-      style.textContent = `
+      dynamicStyle.textContent = `
         body::before {
+          content: "";
+          position: fixed;
+          inset: 0;
           background:
             linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
             url("${image}");
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
+          z-index: -1;
+          transition: background-image 0.3s ease;
         }
       `;
-      document.head.appendChild(style);
+    }
+
+    plantTypeSelect.addEventListener("change", function () {
+      const type = this.value;
+      const image = plantImages[type] || "excavator.jpg";
+      updateBackground(image);
     });
 
     function setCheck(btn, value) {
