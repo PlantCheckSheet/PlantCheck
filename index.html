@@ -438,9 +438,14 @@
         method: "POST",
         body: formData
       })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(result => {
         console.log(result);
+
+        if (result.result !== "success") {
+          throw new Error(result.message || "Unknown Apps Script error");
+        }
+
         alert("Inspection submitted successfully.");
         inspectionForm.reset();
         preview.style.display = "none";
@@ -458,7 +463,7 @@
       })
       .catch(error => {
         console.error("Submission error:", error);
-        alert("Submission failed. Check Apps Script deployment access and sheet name.");
+        alert("Submission failed: " + error.message);
       });
     });
   </script>
