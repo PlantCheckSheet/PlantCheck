@@ -1,2 +1,0 @@
-# PlantCheck
-Plant Check Sheets
