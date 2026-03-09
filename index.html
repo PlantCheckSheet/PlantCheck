@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plant Inspection App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      color: white;
+      background-color: #4b4b4b;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+        url("images/excavator.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      transition: background-image 0.3s ease;
+    }
+
+    .app-header {
+      background: #f4b400;
+      color: #111;
+      padding: 18px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 22px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.96);
+      color: #333;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      backdrop-filter: blur(3px);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #f4b400;
+      padding-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .check-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .check-title {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-group button {
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      min-width: 78px;
+    }
+
+    .ok {
+      background: #2ecc71;
+      color: white;
+    }
+
+    .defect {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .btn-group button.inactive {
+      opacity: 0.4;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #f4b400;
+      border: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #111;
+    }
+
+    .submit-btn:hover {
+      background: #ffcc33;
+    }
+
+    .photo-preview {
+      display: none;
+      margin-top: 10px;
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.8;
+      padding: 12px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin-top: -6px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .check-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-group {
+        justify-content: stretch;
+      }
+
+      .btn-group button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-header">🚧 Plant Pre-Start Inspection</div>
+
+  <div class="container">
+    <form id="inspectionForm">
+      <div class="card">
+        <h2>Operator Details</h2>
+
+        <label for="operator">Operator Name</label>
+        <input id="operator" required type="text" name="operator" />
+
+        <label for="plantType">Plant Type</label>
+        <select required name="plantType" id="plantType">
+          <option value="">Select Plant</option>
+          <option value="Excavator">Excavator</option>
+          <option value="Dumper">Dumper</option>
+          <option value="Roller">Roller</option>
+        </select>
+
+        <label for="machineID">Machine ID / Asset Number</label>
+        <input id="machineID" required type="text" name="machineID" />
+      </div>
+
+      <div class="card">
+        <h2>Machine Checks</h2>
+
+        <div class="check-item">
+          <div class="check-title">Fluid Leaks</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="fluidLeaks" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Hydraulic Hoses</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="hydraulicHoses" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Engine Oil</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="engineOil" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Coolant Level</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="coolant" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Tracks / Tyres</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="tracks" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Lights</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="lights" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Horn / Reverse Alarm</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="alarm" />
+          </div>
+        </div>
+
+        <div class="check-item">
+          <div class="check-title">Controls</div>
+          <div class="btn-group">
+            <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+            <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+            <input type="hidden" name="controls" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Defect Report</h2>
+
+        <label for="defectNotes">Describe Issue</label>
+        <textarea id="defectNotes" name="defectNotes"></textarea>
+
+        <label for="photoUpload">Upload Photo (required if defect found)</label>
+        <input type="file" id="photoUpload" accept="image/*" />
+
+        <div class="note">Photo becomes mandatory if any check is marked as Defect.</div>
+
+        <img id="preview" class="photo-preview" alt="Photo preview" />
+      </div>
+
+      <button class="submit-btn" type="submit">Submit Inspection</button>
+    </form>
+  </div>
+
+  <div class="footer">Plant Inspection System</div>
+
+  <script>
+    const plantImages = {
+      Excavator: "images/excavator.jpg",
+      Dumper: "images/dumper.jpg",
+      Roller: "images/roller.jpg"
+    };
+
+    const bodyBg = document.body;
+    const plantTypeSelect = document.getElementById("plantType");
+    const photoUpload = document.getElementById("photoUpload");
+    const preview = document.getElementById("preview");
+    const inspectionForm = document.getElementById("inspectionForm");
+
+    plantTypeSelect.addEventListener("change", function () {
+      const type = this.value;
+      const image = plantImages[type] || "images/excavator.jpg";
+
+      document.body.style.setProperty("--bg-image", `url("${image}")`);
+      document.body.querySelector("style")?.remove();
+
+      const pseudoStyle = document.getElementById("dynamic-bg-style");
+      if (pseudoStyle) pseudoStyle.remove();
+
+      const style = document.createElement("style");
+      style.id = "dynamic-bg-style";
+      style.textContent = `
+        body::before {
+          background:
+            linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+            url("${image}");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+
+    function setCheck(btn, value) {
+      const container = btn.parentElement;
+      const hidden = container.querySelector("input[type='hidden']");
+      const buttons = container.querySelectorAll("button");
+
+      hidden.value = value;
+
+      buttons.forEach(b => b.classList.add("inactive"));
+      btn.classList.remove("inactive");
+
+      if (value === "Defect") {
+        alert("⚠ DEFECT RECORDED\n\nPlease report this to the site supervisor.");
+      }
+    }
+
+    photoUpload.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+      } else {
+        preview.style.display = "none";
+        preview.removeAttribute("src");
+      }
+    });
+
+    inspectionForm.addEventListener("submit", function (e) {
+      let defectFound = false;
+
+      document.querySelectorAll("input[type='hidden']").forEach(input => {
+        if (input.value === "Defect") defectFound = true;
+      });
+
+      if (defectFound && photoUpload.files.length === 0) {
+        e.preventDefault();
+        alert("A defect was reported. Please upload a photo before submitting.");
+      }
+    });
+  </script>
+</body>
+</html>
