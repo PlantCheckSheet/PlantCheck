@@ -420,30 +420,27 @@
         return;
       }
 
-      const data = {
-        operator: document.getElementById("operator").value,
-        plantType: document.getElementById("plantType").value,
-        machineID: document.getElementById("machineID").value,
-        fluidLeaks: document.querySelector("[name='fluidLeaks']").value,
-        hydraulicHoses: document.querySelector("[name='hydraulicHoses']").value,
-        engineOil: document.querySelector("[name='engineOil']").value,
-        coolant: document.querySelector("[name='coolant']").value,
-        tracks: document.querySelector("[name='tracks']").value,
-        lights: document.querySelector("[name='lights']").value,
-        alarm: document.querySelector("[name='alarm']").value,
-        controls: document.querySelector("[name='controls']").value,
-        defectNotes: document.getElementById("defectNotes").value
-      };
+      const formData = new URLSearchParams();
+      formData.append("operator", document.getElementById("operator").value);
+      formData.append("plantType", document.getElementById("plantType").value);
+      formData.append("machineID", document.getElementById("machineID").value);
+      formData.append("fluidLeaks", document.querySelector("[name='fluidLeaks']").value);
+      formData.append("hydraulicHoses", document.querySelector("[name='hydraulicHoses']").value);
+      formData.append("engineOil", document.querySelector("[name='engineOil']").value);
+      formData.append("coolant", document.querySelector("[name='coolant']").value);
+      formData.append("tracks", document.querySelector("[name='tracks']").value);
+      formData.append("lights", document.querySelector("[name='lights']").value);
+      formData.append("alarm", document.querySelector("[name='alarm']").value);
+      formData.append("controls", document.querySelector("[name='controls']").value);
+      formData.append("defectNotes", document.getElementById("defectNotes").value);
 
       fetch(scriptURL, {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        }
+        body: formData
       })
       .then(response => response.text())
-      .then(() => {
+      .then(result => {
+        console.log(result);
         alert("Inspection submitted successfully.");
         inspectionForm.reset();
         preview.style.display = "none";
@@ -461,7 +458,7 @@
       })
       .catch(error => {
         console.error("Submission error:", error);
-        alert("There was an error submitting the inspection.");
+        alert("Submission failed. Check Apps Script deployment access and sheet name.");
       });
     });
   </script>
