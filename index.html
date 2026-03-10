@@ -16,8 +16,6 @@ body{
 margin:0;
 color:white;
 min-height:100vh;
-position:relative;
-overflow-x:hidden;
 background:#4b4b4b;
 }
 
@@ -32,7 +30,7 @@ background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 z-index:-1;
-transition:background-image 0.3s ease;
+transition:background-image 0.4s ease;
 }
 
 .app-header{
@@ -122,21 +120,28 @@ font-weight:700;
 cursor:pointer;
 }
 
-.success-message{
-display:none;
-background:#2ecc71;
-padding:14px;
-border-radius:10px;
-color:white;
-font-weight:600;
-margin-bottom:20px;
-text-align:center;
-}
-
 .footer{
 text-align:center;
 font-size:12px;
 padding:12px;
+}
+
+/* success popup */
+
+.success-popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#2ecc71;
+color:white;
+padding:20px 28px;
+border-radius:12px;
+font-weight:600;
+font-size:18px;
+display:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+z-index:999;
 }
 
 </style>
@@ -147,10 +152,6 @@ padding:12px;
 <div class="app-header">🚧 Plant Pre-Start Inspection</div>
 
 <div class="container">
-
-<div id="successMessage" class="success-message">
-Inspection submitted successfully ✔
-</div>
 
 <form
 id="inspectionForm"
@@ -274,6 +275,10 @@ target="hiddenFrame">
 
 <div class="footer">Plant Inspection System</div>
 
+<div id="successPopup" class="success-popup">
+Inspection Submitted Successfully ✔
+</div>
+
 <iframe name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
@@ -293,6 +298,11 @@ const plantType=document.getElementById("plantType")
 plantType.addEventListener("change",function(){
 
 const img=plantImages[this.value]||"excavator.jpg"
+
+document.body.style.setProperty(
+"background-image",
+`linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(${img})`
+)
 
 document.body.style.backgroundImage=
 `linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(${img})`
@@ -317,21 +327,19 @@ alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
 }
 
 const form=document.getElementById("inspectionForm")
-const success=document.getElementById("successMessage")
+const popup=document.getElementById("successPopup")
 
-form.addEventListener("submit",function(e){
+form.addEventListener("submit",function(){
 
-success.style.display="block"
+popup.style.display="block"
 
 setTimeout(()=>{
-success.style.display="none"
+
+popup.style.display="none"
 form.reset()
 
 document.querySelectorAll(".btn-group button").forEach(b=>b.style.opacity=1)
 document.querySelectorAll("input[type='hidden']").forEach(i=>i.value="")
-
-document.body.style.backgroundImage=
-`linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(excavator.jpg)`
 
 },2000)
 
