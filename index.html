@@ -1,144 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Plant Pre-Start Inspection</title>
 
 <style>
-
 *{
-box-sizing:border-box;
-font-family:"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box;
+  font-family:"Segoe UI",Arial,sans-serif;
 }
 
 :root{
---bgImage:url("excavator.jpg");
+  --bgImage:url("excavator.jpg");
 }
 
 body{
-margin:0;
-color:white;
-min-height:100vh;
-background:#4b4b4b;
+  margin:0;
+  color:white;
+  min-height:100vh;
+  background:#4b4b4b;
 }
 
 body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),
-var(--bgImage);
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-z-index:-1;
-transition:background-image .4s ease;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),
+    var(--bgImage);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-1;
+  transition:background-image .4s ease;
 }
 
 .app-header{
-background:rgba(244,180,0,0.9);
-color:#111;
-padding:18px;
-text-align:center;
-font-weight:700;
-font-size:22px;
+  background:rgba(244,180,0,0.9);
+  color:#111;
+  padding:18px;
+  text-align:center;
+  font-weight:700;
+  font-size:22px;
 }
 
 .container{
-max-width:760px;
-margin:auto;
-padding:20px;
+  max-width:760px;
+  margin:auto;
+  padding:20px;
 }
 
 .card{
-background:rgba(255,255,255,0.85);
-color:#333;
-border-radius:14px;
-padding:18px;
-margin-bottom:20px;
+  background:rgba(255,255,255,0.85);
+  color:#333;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:20px;
 }
 
 .card h2{
-margin-top:0;
-border-bottom:2px solid #f4b400;
-padding-bottom:6px;
+  margin-top:0;
+  border-bottom:2px solid #f4b400;
+  padding-bottom:6px;
 }
 
 label{
-font-weight:600;
-display:block;
+  font-weight:600;
+  display:block;
 }
 
 input,select,textarea{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #ccc;
-margin-top:6px;
-margin-bottom:12px;
-font-size:15px;
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-top:6px;
+  margin-bottom:12px;
+  font-size:15px;
 }
 
 .check-item{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px 0;
-border-bottom:1px solid #ddd;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #ddd;
+  gap:12px;
 }
 
 .btn-group{
-display:flex;
-gap:8px;
+  display:flex;
+  gap:8px;
 }
 
 .btn-group button{
-border:none;
-padding:10px 14px;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
-min-width:80px;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+  min-width:80px;
 }
 
 .ok{background:#2ecc71;color:white;}
 .defect{background:#e74c3c;color:white;}
 
 .submit-btn{
-width:100%;
-background:#f4b400;
-border:none;
-padding:16px;
-border-radius:10px;
-font-size:18px;
-font-weight:700;
-cursor:pointer;
+  width:100%;
+  background:#f4b400;
+  border:none;
+  padding:16px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
 }
 
 .footer{
-text-align:center;
-font-size:12px;
-padding:12px;
+  text-align:center;
+  font-size:12px;
+  padding:12px;
 }
 
 .success-popup{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#2ecc71;
-color:white;
-padding:20px 28px;
-border-radius:12px;
-font-weight:600;
-font-size:18px;
-display:none;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
-z-index:999;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#2ecc71;
+  color:white;
+  padding:20px 28px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:18px;
+  display:none;
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  z-index:999;
+  text-align:center;
 }
 
+@media (max-width:640px){
+  .container{padding:14px;}
+  .check-item{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .btn-group button{
+    flex:1;
+  }
+}
 </style>
 </head>
 
@@ -149,121 +160,116 @@ z-index:999;
 <div class="container">
 
 <form
-id="inspectionForm"
-method="POST"
-action="https://script.google.com/macros/s/AKfycbxzMHPa2_qNk8Um6kyGfW6s7XVhlJpbN4syt_yZzbll7M11Sas8YcuSWhGqdrpprMHp/exec"
-target="hiddenFrame">
+  id="inspectionForm"
+  method="POST"
+  action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
+  target="hiddenFrame"
+>
 
 <div class="card">
+  <h2>Operator Details</h2>
 
-<h2>Operator Details</h2>
+  <label>Operator Name</label>
+  <input name="operator" required />
 
-<label>Operator Name</label>
-<input name="operator" required>
+  <label>Plant Type</label>
+  <select id="plantType" name="plantType" required>
+    <option value="">Select Plant</option>
+    <option value="Excavator">Excavator</option>
+    <option value="Dumper">Dumper</option>
+    <option value="Roller">Roller</option>
+    <option value="Telehandler">Telehandler</option>
+    <option value="ADT">ADT</option>
+    <option value="Shovel Loader">Shovel Loader</option>
+    <option value="Mobile Crane">Mobile Crane</option>
+  </select>
 
-<label>Plant Type</label>
-
-<select id="plantType" name="plantType" required>
-<option value="">Select Plant</option>
-<option value="Excavator">Excavator</option>
-<option value="Dumper">Dumper</option>
-<option value="Roller">Roller</option>
-<option value="Telehandler">Telehandler</option>
-<option value="ADT">ADT</option>
-<option value="Shovel Loader">Shovel Loader</option>
-<option value="Mobile Crane">Mobile Crane</option>
-</select>
-
-<label>Machine ID</label>
-<input name="machineID" required>
-
+  <label>Machine ID</label>
+  <input name="machineID" required />
 </div>
 
 <div class="card">
+  <h2>Machine Checks</h2>
 
-<h2>Machine Checks</h2>
+  <div class="check-item">
+    <div>Fluid Leaks</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="fluidLeaks" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Fluid Leaks</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="fluidLeaks">
-</div>
-</div>
+  <div class="check-item">
+    <div>Hydraulic Hoses</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="hydraulicHoses" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Hydraulic Hoses</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="hydraulicHoses">
-</div>
-</div>
+  <div class="check-item">
+    <div>Engine Oil</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="engineOil" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Engine Oil</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="engineOil">
-</div>
-</div>
+  <div class="check-item">
+    <div>Coolant</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="coolant" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Coolant</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="coolant">
-</div>
-</div>
+  <div class="check-item">
+    <div>Tracks / Tyres</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="tracks" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Tracks / Tyres</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="tracks">
-</div>
-</div>
+  <div class="check-item">
+    <div>Lights</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="lights" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Lights</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="lights">
-</div>
-</div>
+  <div class="check-item">
+    <div>Horn / Alarm</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="alarm" />
+    </div>
+  </div>
 
-<div class="check-item">
-<div>Horn / Alarm</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="alarm">
-</div>
-</div>
-
-<div class="check-item">
-<div>Controls</div>
-<div class="btn-group">
-<button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="controls">
-</div>
-</div>
-
+  <div class="check-item">
+    <div>Controls</div>
+    <div class="btn-group">
+      <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
+      <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
+      <input type="hidden" name="controls" />
+    </div>
+  </div>
 </div>
 
 <div class="card">
-<h2>Defect Notes</h2>
-<textarea name="defectNotes"></textarea>
+  <h2>Defect Notes</h2>
+  <textarea name="defectNotes"></textarea>
 </div>
 
-<button class="submit-btn">Submit Inspection</button>
-
+<button class="submit-btn" type="submit">Submit Inspection</button>
 </form>
 
 </div>
@@ -274,70 +280,70 @@ target="hiddenFrame">
 Inspection Submitted Successfully ✔
 </div>
 
-<iframe name="hiddenFrame" style="display:none;"></iframe>
+<iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
+const plantImages = {
+  Excavator: "excavator.jpg",
+  Dumper: "dumper.jpg",
+  Roller: "roller.jpg",
+  Telehandler: "telehandler.jpg",
+  ADT: "adt.jpg",
+  "Shovel Loader": "shovel-loader.jpg",
+  "Mobile Crane": "mobile-crane.jpg"
+};
 
-const plantImages={
-Excavator:"excavator.jpg",
-Dumper:"dumper.jpg",
-Roller:"roller.jpg",
-Telehandler:"telehandler.jpg",
-ADT:"adt.jpg",
-"Shovel Loader":"shovel-loader.jpg",
-"Mobile Crane":"mobile-crane.jpg"
+const plantType = document.getElementById("plantType");
+const form = document.getElementById("inspectionForm");
+const popup = document.getElementById("successPopup");
+const hiddenFrame = document.getElementById("hiddenFrame");
+
+let awaitingSubmission = false;
+
+plantType.addEventListener("change", function () {
+  const img = plantImages[this.value] || "excavator.jpg";
+  document.documentElement.style.setProperty("--bgImage", `url("${img}")`);
+});
+
+function setCheck(btn, value) {
+  const container = btn.parentElement;
+  const hidden = container.querySelector("input[type='hidden']");
+  const buttons = container.querySelectorAll("button");
+
+  hidden.value = value;
+  buttons.forEach(b => b.style.opacity = 0.4);
+  btn.style.opacity = 1;
+
+  if (value === "Defect") {
+    alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.");
+  }
 }
 
-const plantType=document.getElementById("plantType")
+hiddenFrame.addEventListener("load", function () {
+  if (!awaitingSubmission) return;
 
-plantType.addEventListener("change",function(){
+  popup.style.display = "block";
 
-const img=plantImages[this.value]||"excavator.jpg"
+  setTimeout(() => {
+    popup.style.display = "none";
+    form.reset();
 
-document.documentElement.style.setProperty(
-"--bgImage",
-`url(${img})`
-)
+    document.querySelectorAll(".btn-group button").forEach(b => {
+      b.style.opacity = 1;
+    });
 
-})
+    document.querySelectorAll("input[type='hidden']").forEach(i => {
+      i.value = "";
+    });
 
-function setCheck(btn,value){
+    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+    awaitingSubmission = false;
+  }, 1800);
+});
 
-const container=btn.parentElement
-const hidden=container.querySelector("input")
-const buttons=container.querySelectorAll("button")
-
-hidden.value=value
-
-buttons.forEach(b=>b.style.opacity=0.4)
-btn.style.opacity=1
-
-if(value==="Defect"){
-alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
-}
-
-}
-
-const form=document.getElementById("inspectionForm")
-const popup=document.getElementById("successPopup")
-
-form.addEventListener("submit",function(){
-
-popup.style.display="block"
-
-setTimeout(()=>{
-popup.style.display="none"
-form.reset()
-
-document.querySelectorAll(".btn-group button").forEach(b=>b.style.opacity=1)
-document.querySelectorAll("input[type='hidden']").forEach(i=>i.value="")
-
-document.documentElement.style.setProperty("--bgImage","url(excavator.jpg)")
-
-},2000)
-
-})
-
+form.addEventListener("submit", function () {
+  awaitingSubmission = true;
+});
 </script>
 
 </body>
