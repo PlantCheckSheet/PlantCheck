@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plant Inspection App</title>
+<title>Plant Pre-Start Inspection</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Segoe UI",Arial,sans-serif}
+*{
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
 
 body{
 margin:0;
 color:white;
-background-color:#4b4b4b;
 min-height:100vh;
 position:relative;
-overflow-x:hidden;
 }
 
 body::before{
@@ -22,26 +23,20 @@ content:"";
 position:fixed;
 inset:0;
 background:
-linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.62)),
+linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),
 url("excavator.jpg");
 background-size:cover;
 background-position:center;
-background-repeat:no-repeat;
 z-index:-1;
-transition:background-image 0.3s ease;
 }
 
 .app-header{
-background:rgba(244,180,0,0.82);
+background:rgba(244,180,0,0.9);
 color:#111;
 padding:18px;
 text-align:center;
 font-weight:700;
 font-size:22px;
-box-shadow:0 4px 10px rgba(0,0,0,0.35);
-backdrop-filter:blur(6px);
--webkit-backdrop-filter:blur(6px);
-border-bottom:1px solid rgba(255,255,255,0.25);
 }
 
 .container{
@@ -51,58 +46,43 @@ padding:20px;
 }
 
 .card{
-background:rgba(255,255,255,0.78);
+background:rgba(255,255,255,0.85);
 color:#333;
 border-radius:14px;
 padding:18px;
 margin-bottom:20px;
-box-shadow:0 12px 30px rgba(0,0,0,0.30);
-backdrop-filter:blur(8px);
--webkit-backdrop-filter:blur(8px);
-border:1px solid rgba(255,255,255,0.38);
 }
 
 .card h2{
 margin-top:0;
-border-bottom:2px solid rgba(244,180,0,0.9);
-padding-bottom:8px;
+border-bottom:2px solid #f4b400;
+padding-bottom:6px;
 }
 
 label{
-display:block;
 font-weight:600;
-margin-bottom:6px;
 }
 
 input,select,textarea{
 width:100%;
 padding:12px;
 border-radius:8px;
-border:1px solid rgba(0,0,0,0.12);
-margin-top:4px;
+border:1px solid #ccc;
+margin-top:6px;
 margin-bottom:12px;
 font-size:15px;
-background:rgba(255,255,255,0.82);
-color:#222;
 }
 
 .check-item{
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:12px;
-padding:12px 0;
-border-bottom:1px solid rgba(0,0,0,0.08);
-}
-
-.check-title{
-font-weight:600;
-flex:1;
+padding:10px 0;
+border-bottom:1px solid #ddd;
 }
 
 .btn-group{
 display:flex;
-align-items:center;
 gap:8px;
 }
 
@@ -112,61 +92,34 @@ padding:10px 14px;
 border-radius:8px;
 font-weight:700;
 cursor:pointer;
-min-width:78px;
-transition:opacity 0.2s ease, transform 0.1s ease;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
+min-width:80px;
 }
 
-.btn-group button:active{
-transform:scale(0.98);
+.ok{
+background:#2ecc71;
+color:white;
 }
 
-.ok{background:#2ecc71;color:white}
-.defect{background:#e74c3c;color:white}
+.defect{
+background:#e74c3c;
+color:white;
+}
 
 .submit-btn{
 width:100%;
-background:rgba(244,180,0,0.88);
+background:#f4b400;
 border:none;
 padding:16px;
 border-radius:10px;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-color:#111;
-}
-
-.photo-preview{
-display:none;
-margin-top:10px;
-max-width:100%;
-border-radius:10px;
 }
 
 .footer{
 text-align:center;
 font-size:12px;
-opacity:0.9;
 padding:12px;
-text-shadow:0 1px 3px rgba(0,0,0,0.5);
-}
-
-@media (max-width: 640px){
-.container{padding:14px}
-.card{
-background:rgba(255,255,255,0.72);
-padding:16px;
-}
-.check-item{
-flex-direction:column;
-align-items:stretch;
-}
-.btn-group{
-justify-content:stretch;
-}
-.btn-group button{
-flex:1;
-}
 }
 </style>
 </head>
@@ -185,31 +138,32 @@ target="hiddenFrame">
 <div class="card">
 <h2>Operator Details</h2>
 
-<label for="operator">Operator Name</label>
-<input id="operator" name="operator" required>
+<label>Operator Name</label>
+<input name="operator" required>
 
-<label for="plantType">Plant Type</label>
+<label>Plant Type</label>
 <select id="plantType" name="plantType" required>
 <option value="">Select Plant</option>
-<option value="Excavator">Excavator</option>
-<option value="Dumper">Dumper</option>
-<option value="Roller">Roller</option>
-<option value="Telehandler">Telehandler</option>
-<option value="ADT">ADT</option>
-<option value="Shovel Loader">Shovel Loader</option>
-<option value="Mobile Crane">Mobile Crane</option>
+<option>Excavator</option>
+<option>Dumper</option>
+<option>Roller</option>
+<option>Telehandler</option>
+<option>ADT</option>
+<option>Shovel Loader</option>
+<option>Mobile Crane</option>
 </select>
 
-<label for="machineID">Machine ID</label>
-<input id="machineID" name="machineID" required>
+<label>Machine ID</label>
+<input name="machineID" required>
 
 </div>
+
 
 <div class="card">
 <h2>Machine Checks</h2>
 
 <div class="check-item">
-<div class="check-title">Fluid Leaks</div>
+<div>Fluid Leaks</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -218,7 +172,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Hydraulic Hoses</div>
+<div>Hydraulic Hoses</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -227,7 +181,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Engine Oil</div>
+<div>Engine Oil</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -236,7 +190,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Coolant</div>
+<div>Coolant</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -245,7 +199,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Tracks / Tyres</div>
+<div>Tracks / Tyres</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -254,7 +208,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Lights</div>
+<div>Lights</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -263,7 +217,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Horn / Alarm</div>
+<div>Horn / Alarm</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -272,7 +226,7 @@ target="hiddenFrame">
 </div>
 
 <div class="check-item">
-<div class="check-title">Controls</div>
+<div>Controls</div>
 <div class="btn-group">
 <button type="button" class="ok" onclick="setCheck(this,'OK')">OK</button>
 <button type="button" class="defect" onclick="setCheck(this,'Defect')">Defect</button>
@@ -283,19 +237,14 @@ target="hiddenFrame">
 </div>
 
 <div class="card">
-<h2>Defect Report</h2>
 
-<label for="defectNotes">Describe Issue</label>
-<textarea id="defectNotes" name="defectNotes"></textarea>
+<h2>Defect Notes</h2>
 
-<label for="photoUpload">Upload Photo (required if defect)</label>
-<input type="file" id="photoUpload" accept="image/*">
-
-<img id="preview" class="photo-preview" alt="Photo preview">
+<textarea name="defectNotes" placeholder="Describe issue if required"></textarea>
 
 </div>
 
-<button class="submit-btn" type="submit">Submit Inspection</button>
+<button class="submit-btn">Submit Inspection</button>
 
 </form>
 
@@ -306,111 +255,46 @@ target="hiddenFrame">
 <iframe name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
-const plantImages = {
-  Excavator: "excavator.jpg",
-  Dumper: "dumper.jpg",
-  Roller: "roller.jpg",
-  Telehandler: "telehandler.jpg",
-  ADT: "adt.jpg",
-  "Shovel Loader": "shovel-loader.jpg",
-  "Mobile Crane": "mobile-crane.jpg"
-};
 
-const plantTypeSelect = document.getElementById("plantType");
-const photoUpload = document.getElementById("photoUpload");
-const preview = document.getElementById("preview");
-const inspectionForm = document.getElementById("inspectionForm");
-
-function updateBackground(image){
-  let dynamicStyle = document.getElementById("dynamic-bg-style");
-
-  if(!dynamicStyle){
-    dynamicStyle = document.createElement("style");
-    dynamicStyle.id = "dynamic-bg-style";
-    document.head.appendChild(dynamicStyle);
-  }
-
-  dynamicStyle.textContent = `
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background:
-        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.62)),
-        url("${image}");
-      background-size:cover;
-      background-position:center;
-      background-repeat:no-repeat;
-      z-index:-1;
-      transition:background-image 0.3s ease;
-    }
-  `;
+const plantImages={
+Excavator:"excavator.jpg",
+Dumper:"dumper.jpg",
+Roller:"roller.jpg",
+Telehandler:"telehandler.jpg",
+ADT:"adt.jpg",
+"Shovel Loader":"shovel-loader.jpg",
+"Mobile Crane":"mobile-crane.jpg"
 }
 
-plantTypeSelect.addEventListener("change", function(){
-  const type = this.value;
-  const image = plantImages[type] || "excavator.jpg";
-  updateBackground(image);
-});
+const plantTypeSelect=document.getElementById("plantType")
 
-function setCheck(btn, value){
-  const container = btn.parentElement;
-  const hidden = container.querySelector("input");
-  const buttons = container.querySelectorAll("button");
+plantTypeSelect.addEventListener("change",function(){
 
-  hidden.value = value;
+const image=plantImages[this.value]||"excavator.jpg"
 
-  buttons.forEach(b => b.style.opacity = 0.4);
-  btn.style.opacity = 1;
+document.body.style.setProperty("--bg-image",`url(${image})`)
 
-  if(value === "Defect"){
-    alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.");
-  }
+document.body.style.backgroundImage=`linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(${image})`
+
+})
+
+function setCheck(btn,value){
+
+const container=btn.parentElement
+const hidden=container.querySelector("input")
+const buttons=container.querySelectorAll("button")
+
+hidden.value=value
+
+buttons.forEach(b=>b.style.opacity=0.4)
+btn.style.opacity=1
+
+if(value==="Defect"){
+alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
 }
 
-photoUpload.addEventListener("change", function(){
-  const file = this.files[0];
+}
 
-  if(file){
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
-  } else {
-    preview.style.display = "none";
-    preview.removeAttribute("src");
-  }
-});
-
-inspectionForm.addEventListener("submit", function(e){
-  let defectFound = false;
-
-  document.querySelectorAll("input[type='hidden']").forEach(input => {
-    if(input.value === "Defect") defectFound = true;
-  });
-
-  if(defectFound && photoUpload.files.length === 0){
-    e.preventDefault();
-    alert("A defect was reported. Please upload a photo.");
-    return;
-  }
-
-  alert("Inspection submitted successfully.");
-
-  setTimeout(() => {
-    inspectionForm.reset();
-    preview.style.display = "none";
-    preview.removeAttribute("src");
-
-    document.querySelectorAll(".btn-group button").forEach(button => {
-      button.style.opacity = 1;
-    });
-
-    document.querySelectorAll("input[type='hidden']").forEach(input => {
-      input.value = "";
-    });
-
-    updateBackground("excavator.jpg");
-  }, 500);
-});
 </script>
 
 </body>
