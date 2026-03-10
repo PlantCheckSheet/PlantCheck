@@ -12,6 +12,10 @@ box-sizing:border-box;
 font-family:"Segoe UI",Arial,sans-serif;
 }
 
+:root{
+--bgImage:url("excavator.jpg");
+}
+
 body{
 margin:0;
 color:white;
@@ -25,12 +29,12 @@ position:fixed;
 inset:0;
 background:
 linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),
-url("excavator.jpg");
+var(--bgImage);
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 z-index:-1;
-transition:background-image 0.4s ease;
+transition:background-image .4s ease;
 }
 
 .app-header{
@@ -99,15 +103,8 @@ cursor:pointer;
 min-width:80px;
 }
 
-.ok{
-background:#2ecc71;
-color:white;
-}
-
-.defect{
-background:#e74c3c;
-color:white;
-}
+.ok{background:#2ecc71;color:white;}
+.defect{background:#e74c3c;color:white;}
 
 .submit-btn{
 width:100%;
@@ -125,8 +122,6 @@ text-align:center;
 font-size:12px;
 padding:12px;
 }
-
-/* success popup */
 
 .success-popup{
 position:fixed;
@@ -299,13 +294,10 @@ plantType.addEventListener("change",function(){
 
 const img=plantImages[this.value]||"excavator.jpg"
 
-document.body.style.setProperty(
-"background-image",
-`linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(${img})`
+document.documentElement.style.setProperty(
+"--bgImage",
+`url(${img})`
 )
-
-document.body.style.backgroundImage=
-`linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.65)),url(${img})`
 
 })
 
@@ -334,12 +326,13 @@ form.addEventListener("submit",function(){
 popup.style.display="block"
 
 setTimeout(()=>{
-
 popup.style.display="none"
 form.reset()
 
 document.querySelectorAll(".btn-group button").forEach(b=>b.style.opacity=1)
 document.querySelectorAll("input[type='hidden']").forEach(i=>i.value="")
+
+document.documentElement.style.setProperty("--bgImage","url(excavator.jpg)")
 
 },2000)
 
