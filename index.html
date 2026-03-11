@@ -369,7 +369,7 @@ target="hiddenFrame"
 
 <h2>Defect Notes</h2>
 
-<textarea name="defectNotes"></textarea>
+<textarea id="defectNotes" name="defectNotes"></textarea>
 
 </div>
 
@@ -452,8 +452,21 @@ awaitingSubmission=false
 
 })
 
-form.addEventListener("submit",function(){
+form.addEventListener("submit",function(e){
+
+const hiddenChecks=Array.from(document.querySelectorAll(".btn-group input[type='hidden']"))
+const hasDefect=hiddenChecks.some(input=>input.value==="Defect")
+const notes=document.getElementById("defectNotes").value.trim()
+
+if(hasDefect && notes===""){
+e.preventDefault()
+alert("⚠ A defect has been recorded.\n\nPlease describe the defect in the notes box before submitting.")
+document.getElementById("defectNotes").focus()
+return
+}
+
 awaitingSubmission=true
+
 })
 
 </script>
