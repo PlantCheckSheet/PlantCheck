@@ -1,440 +1,666 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Plant Pre-Start Inspection</title>
 
 <style>
-
 *{
-box-sizing:border-box;
-font-family:"Segoe UI", Arial, sans-serif;
+  box-sizing:border-box;
+  font-family:"Segoe UI", Arial, sans-serif;
 }
 
 :root{
---bgImage:url("excavator.jpg");
---primary:#f4b400;
---primary-dark:#c99200;
---success:#1f8f4e;
---danger:#c0392b;
---text:#1f2933;
---muted:#5b6770;
---border:#d8dee4;
---panel:#ffffff;
---panel-soft:rgba(255,255,255,0.96);
---shadow:0 12px 30px rgba(0,0,0,0.18);
+  --bgImage:url("excavator.jpg");
+  --primary:#f4b400;
+  --primary-dark:#c99200;
+  --success:#1f8f4e;
+  --danger:#c0392b;
+  --text:#1f2933;
+  --muted:#5b6770;
+  --border:#d8dee4;
+  --panel:#ffffff;
+  --panel-soft:rgba(255,255,255,0.96);
+  --shadow:0 12px 30px rgba(0,0,0,0.18);
 }
 
 body{
-margin:0;
-color:white;
-min-height:100vh;
-background:#3f454b;
+  margin:0;
+  color:white;
+  min-height:100vh;
+  background:#3f454b;
 }
 
 body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(rgba(15,23,42,0.72), rgba(15,23,42,0.78)),
-var(--bgImage);
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-z-index:-2;
-transition:background-image .4s ease;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(15,23,42,0.72), rgba(15,23,42,0.78)),
+    var(--bgImage);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-2;
+  transition:background-image .4s ease;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+  z-index:-1;
 }
 
 .app-header{
-position:relative;
-padding:50px 24px;
-border-bottom:3px solid rgba(0,0,0,0.14);
-box-shadow:0 6px 18px rgba(0,0,0,0.14);
-overflow:hidden;
-background:linear-gradient(90deg, rgba(244,180,0,0.95), rgba(224,164,0,0.95));
+  position:relative;
+  background:linear-gradient(90deg, rgba(244,180,0,0.96), rgba(224,164,0,0.96));
+  color:#111;
+  padding:18px 24px;
+  border-bottom:3px solid rgba(0,0,0,0.14);
+  box-shadow:0 6px 18px rgba(0,0,0,0.14);
+  overflow:hidden;
 }
 
-/* faded logo background */
-
 .header-logo-bg{
-position:absolute;
-inset:0;
-background-image:url("logo-placeholder.png");
-background-repeat:no-repeat;
-background-position:center;
-background-size:contain;
-opacity:0.15;
-pointer-events:none;
+  position:absolute;
+  inset:0;
+  background-image:url("logo-placeholder.png");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  opacity:0.14;
+  pointer-events:none;
+  z-index:0;
 }
 
 .header-inner{
-position:relative;
-max-width:860px;
-margin:auto;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-gap:6px;
+  position:relative;
+  z-index:1;
+  max-width:860px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:6px;
 }
 
 .header-title{
-display:flex;
-flex-direction:column;
-gap:4px;
-align-items:center;
-text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:center;
+  text-align:center;
 }
 
 .header-title h1{
-margin:0;
-font-size:26px;
+  margin:0;
+  font-size:24px;
+  line-height:1.2;
+  letter-spacing:0.2px;
 }
 
 .header-title p{
-margin:0;
-font-size:13px;
-font-weight:600;
-letter-spacing:1px;
-text-transform:uppercase;
+  margin:0;
+  font-size:13px;
+  font-weight:600;
+  color:#2f2f2f;
+  letter-spacing:0.4px;
+  text-transform:uppercase;
 }
 
 .header-badge{
-background:rgba(255,255,255,0.35);
-border-radius:20px;
-padding:6px 14px;
-font-size:12px;
-font-weight:700;
+  background:rgba(255,255,255,0.24);
+  border:1px solid rgba(0,0,0,0.12);
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.7px;
 }
 
 .container{
-max-width:860px;
-margin:28px auto;
-padding:0 20px 28px;
+  max-width:860px;
+  margin:28px auto;
+  padding:0 20px 28px;
 }
 
 .form-shell{
-background:rgba(255,255,255,0.08);
-border-radius:18px;
-padding:18px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:18px;
+  padding:18px;
+  backdrop-filter:blur(4px);
 }
 
 .card{
-background:var(--panel-soft);
-color:var(--text);
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
-border:1px solid rgba(15,23,42,0.08);
-box-shadow:var(--shadow);
+  background:var(--panel-soft);
+  color:var(--text);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:18px;
+  border:1px solid rgba(15,23,42,0.08);
+  box-shadow:var(--shadow);
 }
 
 .card h2{
-margin:0 0 16px 0;
-font-size:18px;
-border-bottom:2px solid var(--primary);
-padding-bottom:8px;
+  margin:0 0 16px 0;
+  font-size:18px;
+  border-bottom:2px solid var(--primary);
+  padding-bottom:8px;
+  letter-spacing:0.2px;
+}
+
+.card-intro{
+  margin:-6px 0 14px 0;
+  color:var(--muted);
+  font-size:14px;
 }
 
 .form-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:14px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
 }
 
 .form-group{
-display:flex;
-flex-direction:column;
+  display:flex;
+  flex-direction:column;
+}
+
+.form-group.full{
+  grid-column:1 / -1;
 }
 
 label{
-font-weight:700;
-margin-bottom:6px;
+  font-weight:700;
+  display:block;
+  color:#24313d;
+  margin-bottom:6px;
+  font-size:14px;
 }
 
-input,select,textarea{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #ccc;
-font-size:15px;
+input, select, textarea{
+  width:100%;
+  padding:12px 13px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  font-size:15px;
+  background:#fff;
+  color:#1f2933;
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+input:focus, select:focus, textarea:focus{
+  outline:none;
+  border-color:var(--primary-dark);
+  box-shadow:0 0 0 4px rgba(244,180,0,0.18);
 }
 
 textarea{
-min-height:120px;
+  min-height:120px;
+  resize:vertical;
 }
 
 .check-list{
-border:1px solid var(--border);
-border-radius:12px;
-overflow:hidden;
-background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
 }
 
 .check-item{
-display:grid;
-grid-template-columns:1fr auto;
-padding:14px 16px;
-border-bottom:1px solid #e8edf2;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  padding:14px 16px;
+  border-bottom:1px solid #e8edf2;
+  gap:14px;
+}
+
+.check-item:last-child{
+  border-bottom:none;
+}
+
+.check-label{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.check-label strong{
+  font-size:15px;
+  color:#1f2933;
+}
+
+.check-label span{
+  font-size:12px;
+  color:var(--muted);
 }
 
 .btn-group{
-display:flex;
-gap:10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
 }
 
 .status-btn{
-border:2px solid #cfd8df;
-background:#fff;
-padding:10px 16px;
-border-radius:10px;
-font-weight:800;
-cursor:pointer;
-min-width:90px;
+  border:2px solid #cfd8df;
+  background:#fff;
+  color:#334155;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  min-width:96px;
+  letter-spacing:0.3px;
+  transition:all .2s ease;
+}
+
+.status-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.08);
 }
 
 .status-btn.selected-ok{
-background:#e8f7ee;
-border-color:var(--success);
-color:var(--success);
+  background:rgba(31,143,78,0.1);
+  border-color:var(--success);
+  color:var(--success);
 }
 
 .status-btn.selected-defect{
-background:#fdeaea;
-border-color:var(--danger);
-color:var(--danger);
+  background:rgba(192,57,43,0.1);
+  border-color:var(--danger);
+  color:var(--danger);
+}
+
+.notes-warning{
+  display:none;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  background:#fff4e5;
+  color:#8a5a00;
+  border:1px solid #f3cf8b;
+  font-size:14px;
+  font-weight:600;
+}
+
+.submit-wrap{
+  margin-top:16px;
 }
 
 .submit-btn{
-width:100%;
-background:var(--primary);
-border:none;
-padding:16px;
-border-radius:12px;
-font-size:18px;
-font-weight:800;
-cursor:pointer;
+  width:100%;
+  background:linear-gradient(90deg, var(--primary), #df9f00);
+  color:#111;
+  border:none;
+  padding:16px;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  letter-spacing:0.3px;
+  box-shadow:0 10px 22px rgba(0,0,0,0.18);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.submit-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 28px rgba(0,0,0,0.22);
 }
 
 .footer{
-text-align:center;
-font-size:12px;
-padding:10px 12px 22px;
-color:rgba(255,255,255,0.78);
+  text-align:center;
+  font-size:12px;
+  padding:10px 12px 22px;
+  color:rgba(255,255,255,0.78);
+  letter-spacing:0.6px;
+  text-transform:uppercase;
 }
 
 .success-popup{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#1f8f4e;
-color:white;
-padding:20px 28px;
-border-radius:12px;
-font-weight:700;
-display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#1f8f4e;
+  color:white;
+  padding:20px 28px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:18px;
+  display:none;
+  box-shadow:0 14px 34px rgba(0,0,0,0.35);
+  z-index:999;
+  text-align:center;
 }
 
 @media (max-width:780px){
-.form-grid{grid-template-columns:1fr;}
+  .form-grid{
+    grid-template-columns:1fr;
+  }
 }
 
+@media (max-width:640px){
+  .container{
+    padding:0 14px 24px;
+  }
+
+  .check-item{
+    grid-template-columns:1fr;
+    align-items:stretch;
+  }
+
+  .btn-group{
+    width:100%;
+  }
+
+  .status-btn{
+    flex:1;
+  }
+
+  .header-title h1{
+    font-size:21px;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-
-<div class="header-logo-bg"></div>
-
-<div class="header-inner">
-
-<div class="header-title">
-<p>Site Safety Inspection Record</p>
-<h1>Plant Pre-Start Inspection</h1>
+  <div class="header-logo-bg"></div>
+  <div class="header-inner">
+    <div class="header-title">
+      <p>Site Safety Inspection Record</p>
+      <h1>Plant Pre-Start Inspection</h1>
+    </div>
+    <div class="header-badge">Your Logo Here</div>
+  </div>
 </div>
-
-<div class="header-badge">
-YOUR LOGO HERE
-</div>
-
-</div>
-</div>
-
 
 <div class="container">
-<div class="form-shell">
+  <div class="form-shell">
 
-<form id="inspectionForm"
-method="POST"
-action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
-target="hiddenFrame">
+    <form
+      id="inspectionForm"
+      method="POST"
+      action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
+      target="hiddenFrame"
+    >
 
-<div class="card">
+      <div class="card">
+        <h2>Operator Details</h2>
+        <p class="card-intro">Complete all operator and machine information before starting the inspection.</p>
 
-<h2>Operator Details</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="operator">Operator Name</label>
+            <input id="operator" name="operator" required />
+          </div>
 
-<div class="form-grid">
+          <div class="form-group">
+            <label for="plantType">Plant Type</label>
+            <select id="plantType" name="plantType" required>
+              <option value="">Select Plant</option>
+              <option value="Excavator">Excavator</option>
+              <option value="Dumper">Dumper</option>
+              <option value="Roller">Roller</option>
+              <option value="Telehandler">Telehandler</option>
+              <option value="ADT">ADT</option>
+              <option value="Shovel Loader">Shovel Loader</option>
+              <option value="Mobile Crane">Mobile Crane</option>
+            </select>
+          </div>
 
-<div class="form-group">
-<label>Operator Name</label>
-<input name="operator" required>
+          <div class="form-group">
+            <label for="machineID">Machine ID</label>
+            <input id="machineID" name="machineID" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Machine Checks</h2>
+        <p class="card-intro">Mark each inspection item as OK or Defect before submitting the form.</p>
+
+        <div class="check-list">
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Fluid Leaks</strong>
+              <span>Check for leaks beneath and around the machine.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="fluidLeaks" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Hydraulic Hoses</strong>
+              <span>Inspect for wear, damage, splits, or loose fittings.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="hydraulicHoses" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Engine Oil</strong>
+              <span>Confirm oil level and check for contamination or loss.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="engineOil" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Coolant</strong>
+              <span>Verify coolant level and look for visible issues.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="coolant" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Tracks / Tyres</strong>
+              <span>Inspect condition, wear, pressure, and visible damage.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="tracks" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Lights</strong>
+              <span>Ensure all required working and warning lights operate correctly.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="lights" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Horn / Alarm</strong>
+              <span>Check audible warning devices are working properly.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="alarm" />
+            </div>
+          </div>
+
+          <div class="check-item">
+            <div class="check-label">
+              <strong>Controls</strong>
+              <span>Confirm machine controls respond correctly and safely.</span>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
+              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
+              <input type="hidden" name="controls" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Defect Notes</h2>
+        <p class="card-intro">If any inspection item is marked as Defect, a defect description must be entered below.</p>
+        <label for="defectNotes">Defect Description</label>
+        <textarea id="defectNotes" name="defectNotes" placeholder="Enter full details of any defect found, including location and issue observed."></textarea>
+        <div id="notesWarning" class="notes-warning">
+          Defect notes are required when one or more checks are marked as Defect.
+        </div>
+      </div>
+
+      <div class="submit-wrap">
+        <button class="submit-btn" type="submit">Submit Inspection</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-<div class="form-group">
-<label>Plant Type</label>
-<select id="plantType" name="plantType" required>
-
-<option value="">Select Plant</option>
-<option value="Excavator">Excavator</option>
-<option value="Dumper">Dumper</option>
-<option value="Roller">Roller</option>
-<option value="Telehandler">Telehandler</option>
-<option value="ADT">ADT</option>
-<option value="Shovel Loader">Shovel Loader</option>
-<option value="Mobile Crane">Mobile Crane</option>
-
-</select>
-</div>
-
-<div class="form-group">
-<label>Machine ID</label>
-<input name="machineID" required>
-</div>
-
-</div>
-</div>
-
-
-<div class="card">
-
-<h2>Machine Checks</h2>
-
-<div class="check-list">
-
-<div class="check-item">
-<div>Fluid Leaks</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="fluidLeaks">
-</div>
-</div>
-
-<div class="check-item">
-<div>Hydraulic Hoses</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="hydraulicHoses">
-</div>
-</div>
-
-<div class="check-item">
-<div>Engine Oil</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="engineOil">
-</div>
-</div>
-
-<div class="check-item">
-<div>Coolant</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="coolant">
-</div>
-</div>
-
-<div class="check-item">
-<div>Tracks / Tyres</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="tracks">
-</div>
-</div>
-
-<div class="check-item">
-<div>Lights</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="lights">
-</div>
-</div>
-
-<div class="check-item">
-<div>Horn / Alarm</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="alarm">
-</div>
-</div>
-
-<div class="check-item">
-<div>Controls</div>
-<div class="btn-group">
-<button type="button" class="status-btn" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="controls">
-</div>
-</div>
-
-</div>
-</div>
-
-
-<div class="card">
-<h2>Defect Notes</h2>
-<textarea id="defectNotes" name="defectNotes"></textarea>
-</div>
-
-<button class="submit-btn" type="submit">
-Submit Inspection
-</button>
-
-</form>
-</div>
-</div>
-
-
-<div class="footer">
-Plant Inspection System
-</div>
+<div class="footer">Plant Inspection System</div>
 
 <div id="successPopup" class="success-popup">
-Inspection Submitted Successfully ✔
+  Inspection Submitted Successfully ✔
 </div>
 
 <iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
+const plantImages = {
+  Excavator: "excavator.jpg",
+  Dumper: "dumper.jpg",
+  Roller: "roller.jpg",
+  Telehandler: "telehandler.jpg",
+  ADT: "adt.jpg",
+  "Shovel Loader": "shovel-loader.jpg",
+  "Mobile Crane": "mobile-crane.jpg"
+};
 
-function setCheck(btn,value){
+const plantType = document.getElementById("plantType");
+const form = document.getElementById("inspectionForm");
+const popup = document.getElementById("successPopup");
+const hiddenFrame = document.getElementById("hiddenFrame");
+const defectNotes = document.getElementById("defectNotes");
+const notesWarning = document.getElementById("notesWarning");
 
-const container=btn.parentElement
-const hidden=container.querySelector("input")
+let awaitingSubmission = false;
 
-const buttons=container.querySelectorAll("button")
+plantType.addEventListener("change", function () {
+  const img = plantImages[this.value] || "excavator.jpg";
+  document.documentElement.style.setProperty("--bgImage", `url("${img}")`);
+});
 
-buttons.forEach(b=>b.classList.remove("selected-ok","selected-defect"))
+function setCheck(btn, value) {
+  const container = btn.parentElement;
+  const hidden = container.querySelector("input[type='hidden']");
+  const buttons = container.querySelectorAll("button");
 
-if(value==="OK"){btn.classList.add("selected-ok")}
-if(value==="Defect"){btn.classList.add("selected-defect")}
+  hidden.value = value;
 
-hidden.value=value
+  buttons.forEach(b => {
+    b.classList.remove("selected-ok", "selected-defect");
+  });
 
+  if (value === "OK") {
+    btn.classList.add("selected-ok");
+  } else if (value === "Defect") {
+    btn.classList.add("selected-defect");
+    alert("⚠ DEFECT RECORDED\n\nPlease report this to site management and complete the defect notes before submission.");
+  }
+
+  updateDefectRequirement();
 }
 
+function updateDefectRequirement() {
+  const hiddenChecks = Array.from(document.querySelectorAll(".btn-group input[type='hidden']"));
+  const hasDefect = hiddenChecks.some(input => input.value === "Defect");
+
+  if (hasDefect) {
+    defectNotes.setAttribute("required", "required");
+    notesWarning.style.display = "block";
+  } else {
+    defectNotes.removeAttribute("required");
+    notesWarning.style.display = "none";
+  }
+}
+
+hiddenFrame.addEventListener("load", function () {
+  if (!awaitingSubmission) return;
+
+  popup.style.display = "block";
+
+  setTimeout(() => {
+    popup.style.display = "none";
+    form.reset();
+
+    document.querySelectorAll(".status-btn").forEach(btn => {
+      btn.classList.remove("selected-ok", "selected-defect");
+    });
+
+    document.querySelectorAll(".btn-group input[type='hidden']").forEach(i => {
+      i.value = "";
+    });
+
+    notesWarning.style.display = "none";
+    defectNotes.removeAttribute("required");
+    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+    awaitingSubmission = false;
+  }, 1800);
+});
+
+form.addEventListener("submit", function (e) {
+  const hiddenChecks = Array.from(document.querySelectorAll(".btn-group input[type='hidden']"));
+  const unansweredChecks = hiddenChecks.filter(input => !input.value);
+  const hasDefect = hiddenChecks.some(input => input.value === "Defect");
+  const defectNotesFilled = defectNotes.value.trim() !== "";
+
+  if (unansweredChecks.length > 0) {
+    e.preventDefault();
+    alert("Please complete all machine checks before submitting the inspection.");
+    return;
+  }
+
+  if (hasDefect && !defectNotesFilled) {
+    e.preventDefault();
+    notesWarning.style.display = "block";
+    defectNotes.focus();
+    alert("A defect has been recorded. Please enter defect notes before submitting.");
+    return;
+  }
+
+  awaitingSubmission = true;
+});
 </script>
 
 </body>
