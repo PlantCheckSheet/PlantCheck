@@ -455,8 +455,15 @@ awaitingSubmission=false
 form.addEventListener("submit",function(e){
 
 const hiddenChecks=Array.from(document.querySelectorAll(".btn-group input[type='hidden']"))
+const hasUnanswered=hiddenChecks.some(input=>input.value.trim()==="")
 const hasDefect=hiddenChecks.some(input=>input.value==="Defect")
 const notes=document.getElementById("defectNotes").value.trim()
+
+if(hasUnanswered){
+e.preventDefault()
+alert("⚠ Please complete every machine check before submitting.\n\nSelect either OK or Defect for each item.")
+return
+}
 
 if(hasDefect && notes===""){
 e.preventDefault()
