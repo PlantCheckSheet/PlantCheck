@@ -23,7 +23,6 @@
   --panel:#ffffff;
   --panel-soft:rgba(255,255,255,0.97);
   --shadow:0 14px 34px rgba(0,0,0,0.18);
-  --shadow-soft:0 8px 20px rgba(15,23,42,0.08);
 }
 
 body{
@@ -44,7 +43,6 @@ body::before{
   background-position:center;
   background-repeat:no-repeat;
   z-index:-2;
-  transition:background-image .4s ease;
 }
 
 body::after{
@@ -56,28 +54,13 @@ body::after{
 }
 
 .app-header{
-  position:relative;
   background:linear-gradient(90deg, rgba(244,180,0,0.97), rgba(224,164,0,0.97));
   color:#111;
   border-bottom:3px solid rgba(0,0,0,0.14);
   box-shadow:0 8px 24px rgba(0,0,0,0.16);
-  overflow:hidden;
-}
-
-.header-logo-bg{
-  position:absolute;
-  inset:0;
-  background-image:url("logo-placeholder.png");
-  background-repeat:no-repeat;
-  background-position:left 28px center;
-  background-size:160px auto;
-  opacity:0.13;
-  pointer-events:none;
 }
 
 .header-inner{
-  position:relative;
-  z-index:1;
   max-width:1060px;
   margin:0 auto;
   padding:20px 24px;
@@ -90,17 +73,11 @@ body::after{
 .header-logo-box{
   display:flex;
   align-items:center;
-  justify-content:flex-start;
-  min-height:72px;
 }
 
 .header-logo{
   max-width:140px;
   max-height:56px;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.08));
 }
 
 .header-title{
@@ -111,23 +88,19 @@ body::after{
   margin:0 0 4px 0;
   font-size:12px;
   font-weight:700;
-  letter-spacing:1.1px;
+  letter-spacing:1px;
   text-transform:uppercase;
-  color:#2d2d2d;
 }
 
 .header-title h1{
   margin:0;
   font-size:28px;
-  line-height:1.15;
-  letter-spacing:0.2px;
 }
 
 .header-title .header-sub{
-  margin-top:5px;
+  margin-top:4px;
   font-size:13px;
   font-weight:600;
-  color:#3d3d3d;
 }
 
 .header-status{
@@ -136,20 +109,13 @@ body::after{
 }
 
 .header-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:42px;
   padding:10px 16px;
   border-radius:999px;
   border:1px solid rgba(0,0,0,0.14);
-  background:rgba(255,255,255,0.28);
+  background:rgba(255,255,255,0.3);
   font-size:12px;
   font-weight:800;
-  letter-spacing:0.8px;
-  text-transform:uppercase;
-  color:#1e293b;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  letter-spacing:0.7px;
 }
 
 .container{
@@ -160,10 +126,8 @@ body::after{
 
 .form-shell{
   background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.12);
   border-radius:20px;
   padding:20px;
-  backdrop-filter:blur(4px);
 }
 
 .card{
@@ -181,18 +145,16 @@ body::after{
   font-size:19px;
   border-bottom:2px solid var(--primary);
   padding-bottom:8px;
-  letter-spacing:0.2px;
 }
 
 .card-intro{
   margin:0 0 16px 0;
   color:var(--muted);
-  font-size:14px;
 }
 
 .form-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:16px;
 }
 
@@ -203,32 +165,18 @@ body::after{
 
 label{
   font-weight:700;
-  display:block;
-  color:#24313d;
-  margin-bottom:7px;
-  font-size:14px;
+  margin-bottom:6px;
 }
 
-input, select, textarea{
+input,select,textarea{
   width:100%;
-  padding:13px 14px;
+  padding:13px;
   border-radius:10px;
   border:1px solid var(--border);
-  font-size:15px;
-  background:#fff;
-  color:#1f2933;
-  transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-}
-
-input:focus, select:focus, textarea:focus{
-  outline:none;
-  border-color:var(--primary-dark);
-  box-shadow:0 0 0 4px rgba(244,180,0,0.16);
 }
 
 textarea{
   min-height:130px;
-  resize:vertical;
 }
 
 .check-list{
@@ -236,70 +184,38 @@ textarea{
   border-radius:14px;
   overflow:hidden;
   background:#fff;
-  box-shadow:var(--shadow-soft);
 }
 
 .check-item{
   display:grid;
   grid-template-columns:1fr auto;
-  align-items:center;
   padding:16px 18px;
   border-bottom:1px solid #e8edf2;
-  gap:16px;
-}
-
-.check-item:last-child{
-  border-bottom:none;
-}
-
-.check-label{
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-
-.check-label strong{
-  font-size:15px;
-  color:#1f2933;
-}
-
-.check-label span{
-  font-size:12px;
-  color:var(--muted);
 }
 
 .btn-group{
   display:flex;
   gap:10px;
-  align-items:center;
 }
 
 .status-btn{
   border:2px solid #d6dde4;
   background:#fff;
-  color:#334155;
   padding:10px 18px;
   border-radius:10px;
   font-weight:800;
   cursor:pointer;
   min-width:98px;
-  letter-spacing:0.3px;
-  transition:all .18s ease;
-}
-
-.status-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 7px 14px rgba(0,0,0,0.08);
 }
 
 .status-btn.selected-ok{
-  background:rgba(31,143,78,0.08);
+  background:#e8f7ee;
   border-color:var(--success);
   color:var(--success);
 }
 
 .status-btn.selected-defect{
-  background:rgba(192,57,43,0.08);
+  background:#fdeaea;
   border-color:var(--danger);
   color:var(--danger);
 }
@@ -307,37 +223,21 @@ textarea{
 .notes-warning{
   display:none;
   margin-top:12px;
-  padding:11px 13px;
+  padding:11px;
   border-radius:10px;
   background:#fff4e5;
-  color:#8a5a00;
   border:1px solid #f3cf8b;
-  font-size:14px;
-  font-weight:700;
-}
-
-.submit-wrap{
-  margin-top:16px;
 }
 
 .submit-btn{
   width:100%;
-  background:linear-gradient(90deg, var(--primary), #df9f00);
-  color:#111;
+  background:var(--primary);
   border:none;
   padding:17px;
   border-radius:12px;
   font-size:18px;
   font-weight:800;
   cursor:pointer;
-  letter-spacing:0.3px;
-  box-shadow:0 12px 24px rgba(0,0,0,0.18);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-
-.submit-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 16px 28px rgba(0,0,0,0.22);
 }
 
 .footer{
@@ -345,8 +245,6 @@ textarea{
   font-size:12px;
   padding:10px 12px 22px;
   color:rgba(255,255,255,0.82);
-  letter-spacing:0.6px;
-  text-transform:uppercase;
 }
 
 .success-popup{
@@ -359,369 +257,31 @@ textarea{
   padding:20px 28px;
   border-radius:12px;
   font-weight:700;
-  font-size:18px;
   display:none;
-  box-shadow:0 14px 34px rgba(0,0,0,0.35);
-  z-index:999;
-  text-align:center;
 }
 
-@media (max-width:900px){
-  .header-inner{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .header-logo-box,
-  .header-status{
-    justify-content:center;
-  }
-
-  .header-logo-bg{
-    background-position:center;
-  }
-
-  .header-title h1{
-    font-size:24px;
-  }
-}
-
-@media (max-width:780px){
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media (max-width:640px){
-  .container{
-    padding:0 14px 24px;
-  }
-
-  .app-header{
-    padding-bottom:4px;
-  }
-
-  .header-inner{
-    padding:18px 14px;
-    gap:12px;
-  }
-
-  .check-item{
-    grid-template-columns:1fr;
-    align-items:stretch;
-  }
-
-  .btn-group{
-    width:100%;
-  }
-
-  .status-btn{
-    flex:1;
-    min-width:0;
-  }
-}
 </style>
 </head>
 
 <body>
 
 <div class="app-header">
-  <div class="header-logo-bg"></div>
 
-  <div class="header-inner">
-    <div class="header-logo-box">
-      <img src="logo-placeholder.png" alt="Company Logo" class="header-logo">
-    </div>
+<div class="header-inner">
 
-    <div class="header-title">
-      <p>Site Safety Inspection Record</p>
-      <h1>Plant Pre-Start Inspection</h1>
-      <div class="header-sub">Daily Operator Machinery Check</div>
-    </div>
-
-    <div class="header-status">
-      <div class="header-pill">Inspection Form</div>
-    </div>
-  </div>
+<div class="header-logo-box">
+<img src="logo-placeholder.png" class="header-logo">
 </div>
 
-<div class="container">
-  <div class="form-shell">
-
-    <form
-      id="inspectionForm"
-      method="POST"
-      action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
-      target="hiddenFrame"
-    >
-
-      <div class="card">
-        <h2>Operator Details</h2>
-        <p class="card-intro">Complete all operator and machine information before starting the inspection.</p>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="operator">Operator Name</label>
-            <input id="operator" name="operator" required />
-          </div>
-
-          <div class="form-group">
-            <label for="plantType">Plant Type</label>
-            <select id="plantType" name="plantType" required>
-              <option value="">Select Plant</option>
-              <option value="Excavator">Excavator</option>
-              <option value="Dumper">Dumper</option>
-              <option value="Roller">Roller</option>
-              <option value="Telehandler">Telehandler</option>
-              <option value="ADT">ADT</option>
-              <option value="Shovel Loader">Shovel Loader</option>
-              <option value="Mobile Crane">Mobile Crane</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="machineID">Machine ID</label>
-            <input id="machineID" name="machineID" required />
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Machine Checks</h2>
-        <p class="card-intro">Mark each inspection item as OK or Defect before submitting the form.</p>
-
-        <div class="check-list">
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Fluid Leaks</strong>
-              <span>Check for leaks beneath and around the machine.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="fluidLeaks" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Hydraulic Hoses</strong>
-              <span>Inspect for wear, damage, splits, or loose fittings.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="hydraulicHoses" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Engine Oil</strong>
-              <span>Confirm oil level and check for contamination or loss.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="engineOil" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Coolant</strong>
-              <span>Verify coolant level and look for visible issues.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="coolant" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Tracks / Tyres</strong>
-              <span>Inspect condition, wear, pressure, and visible damage.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="tracks" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Lights</strong>
-              <span>Ensure all required working and warning lights operate correctly.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="lights" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Horn / Alarm</strong>
-              <span>Check audible warning devices are working properly.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="alarm" />
-            </div>
-          </div>
-
-          <div class="check-item">
-            <div class="check-label">
-              <strong>Controls</strong>
-              <span>Confirm machine controls respond correctly and safely.</span>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="status-btn ok-btn" onclick="setCheck(this,'OK')">OK</button>
-              <button type="button" class="status-btn defect-btn" onclick="setCheck(this,'Defect')">Defect</button>
-              <input type="hidden" name="controls" />
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Defect Notes</h2>
-        <p class="card-intro">If any inspection item is marked as Defect, a defect description must be entered below.</p>
-        <label for="defectNotes">Defect Description</label>
-        <textarea id="defectNotes" name="defectNotes" placeholder="Enter full details of any defect found, including location and issue observed."></textarea>
-        <div id="notesWarning" class="notes-warning">
-          Defect notes are required when one or more checks are marked as Defect.
-        </div>
-      </div>
-
-      <div class="submit-wrap">
-        <button class="submit-btn" type="submit">Submit Inspection</button>
-      </div>
-    </form>
-  </div>
+<div class="header-title">
+<p>Site Safety Inspection Record</p>
+<h1>Plant Pre-Start Inspection</h1>
+<div class="header-sub">Daily Operator Machinery Check</div>
 </div>
 
-<div class="footer">Plant Inspection System</div>
-
-<div id="successPopup" class="success-popup">
-  Inspection Submitted Successfully ✔
+<div class="header-status">
+<div class="header-pill">Inspection Form</div>
 </div>
 
-<iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
-
-<script>
-const plantImages = {
-  Excavator: "excavator.jpg",
-  Dumper: "dumper.jpg",
-  Roller: "roller.jpg",
-  Telehandler: "telehandler.jpg",
-  ADT: "adt.jpg",
-  "Shovel Loader": "shovel-loader.jpg",
-  "Mobile Crane": "mobile-crane.jpg"
-};
-
-const plantType = document.getElementById("plantType");
-const form = document.getElementById("inspectionForm");
-const popup = document.getElementById("successPopup");
-const hiddenFrame = document.getElementById("hiddenFrame");
-const defectNotes = document.getElementById("defectNotes");
-const notesWarning = document.getElementById("notesWarning");
-
-let awaitingSubmission = false;
-
-plantType.addEventListener("change", function () {
-  const img = plantImages[this.value] || "excavator.jpg";
-  document.documentElement.style.setProperty("--bgImage", `url("${img}")`);
-});
-
-function setCheck(btn, value) {
-  const container = btn.parentElement;
-  const hidden = container.querySelector("input[type='hidden']");
-  const buttons = container.querySelectorAll("button");
-
-  hidden.value = value;
-
-  buttons.forEach(b => {
-    b.classList.remove("selected-ok", "selected-defect");
-  });
-
-  if (value === "OK") {
-    btn.classList.add("selected-ok");
-  } else if (value === "Defect") {
-    btn.classList.add("selected-defect");
-    alert("⚠ DEFECT RECORDED\n\nPlease report this to site management and complete the defect notes before submission.");
-  }
-
-  updateDefectRequirement();
-}
-
-function updateDefectRequirement() {
-  const hiddenChecks = Array.from(document.querySelectorAll(".btn-group input[type='hidden']"));
-  const hasDefect = hiddenChecks.some(input => input.value === "Defect");
-
-  if (hasDefect) {
-    defectNotes.setAttribute("required", "required");
-    notesWarning.style.display = "block";
-  } else {
-    defectNotes.removeAttribute("required");
-    notesWarning.style.display = "none";
-  }
-}
-
-hiddenFrame.addEventListener("load", function () {
-  if (!awaitingSubmission) return;
-
-  popup.style.display = "block";
-
-  setTimeout(() => {
-    popup.style.display = "none";
-    form.reset();
-
-    document.querySelectorAll(".status-btn").forEach(btn => {
-      btn.classList.remove("selected-ok", "selected-defect");
-    });
-
-    document.querySelectorAll(".btn-group input[type='hidden']").forEach(i => {
-      i.value = "";
-    });
-
-    notesWarning.style.display = "none";
-    defectNotes.removeAttribute("required");
-    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
-    awaitingSubmission = false;
-  }, 1800);
-});
-
-form.addEventListener("submit", function (e) {
-  const hiddenChecks = Array.from(document.querySelectorAll(".btn-group input[type='hidden']"));
-  const unansweredChecks = hiddenChecks.filter(input => !input.value);
-  const hasDefect = hiddenChecks.some(input => input.value === "Defect");
-  const defectNotesFilled = defectNotes.value.trim() !== "";
-
-  if (unansweredChecks.length > 0) {
-    e.preventDefault();
-    alert("Please complete all machine checks before submitting the inspection.");
-    return;
-  }
-
-  if (hasDefect && !defectNotesFilled) {
-    e.preventDefault();
-    notesWarning.style.display = "block";
-    defectNotes.focus();
-    alert("A defect has been recorded. Please enter defect notes before submitting.");
-    return;
-  }
-
-  awaitingSubmission = true;
-});
-</script>
-
-</body>
-</html>
+</div>
+</div>
