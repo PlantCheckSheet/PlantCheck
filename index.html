@@ -73,20 +73,14 @@ font-size:13px;
 font-weight:600;
 }
 
-/* UPDATED LOGO SIZE */
-
 .logo-section{
 text-align:center;
-padding:22px 0 12px 0;
+padding:16px 0 6px 0;
 }
 
 .logo-section img{
-max-width:420px;
-width:100%;
-height:auto;
-display:block;
-margin:auto;
-object-fit:contain;
+max-width:200px;
+max-height:80px;
 }
 
 .container{
@@ -261,9 +255,265 @@ flex:1;
 </div>
 
 <div class="logo-section">
-<img src="mpttlogo.jpg" alt="Company Logo">
+<img src="logo-placeholder.png" alt="Company Logo">
 </div>
 
-<!-- EVERYTHING BELOW REMAINS EXACTLY THE SAME AS YOUR ORIGINAL -->
+<div class="container">
+<div class="form-shell">
 
-<!-- Your form, scripts, validation, Google connection etc remain unchanged -->
+<form
+id="inspectionForm"
+method="POST"
+action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
+target="hiddenFrame"
+>
+
+<div class="card">
+
+<h2>Operator Details</h2>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Operator Name</label>
+<input name="operator" required>
+</div>
+
+<div class="form-group">
+<label>Site Location</label>
+<input name="siteLocation" required>
+</div>
+
+<div class="form-group">
+<label>Plant Type</label>
+
+<select id="plantType" name="plantType" required>
+<option value="">Select Plant</option>
+<option value="Excavator">Excavator</option>
+<option value="Dumper">Dumper</option>
+<option value="Roller">Roller</option>
+<option value="Telehandler">Telehandler</option>
+<option value="ADT">ADT</option>
+<option value="Shovel Loader">Shovel Loader</option>
+<option value="Mobile Crane">Mobile Crane</option>
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Machine ID</label>
+<input name="machineID" required>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<h2>Machine Checks</h2>
+
+<div class="check-list">
+
+<div class="check-item">
+<div>Fluid Leaks</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="fluidLeaks">
+</div>
+</div>
+
+<div class="check-item">
+<div>Hydraulic Hoses</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="hydraulicHoses">
+</div>
+</div>
+
+<div class="check-item">
+<div>Engine Oil</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="engineOil">
+</div>
+</div>
+
+<div class="check-item">
+<div>Coolant</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="coolant">
+</div>
+</div>
+
+<div class="check-item">
+<div>Tracks / Tyres</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="tracks">
+</div>
+</div>
+
+<div class="check-item">
+<div>Lights</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="lights">
+</div>
+</div>
+
+<div class="check-item">
+<div>Horn / Alarm</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="alarm">
+</div>
+</div>
+
+<div class="check-item">
+<div>Controls</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="controls">
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<h2>Defect Notes</h2>
+
+<textarea id="defectNotes" name="defectNotes"></textarea>
+
+</div>
+
+<button id="submitBtn" class="submit-btn" type="submit">Submit Inspection</button>
+
+</form>
+
+</div>
+</div>
+
+<div class="footer">Plant Inspection System</div>
+
+<div id="successPopup" class="success-popup">
+Inspection Submitted Successfully ✔
+</div>
+
+<iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
+
+<script>
+
+const plantImages={
+Excavator:"excavator.jpg",
+Dumper:"dumper.jpg",
+Roller:"roller.jpg",
+Telehandler:"telehandler.jpg",
+ADT:"adt.jpg",
+"Shovel Loader":"shovel-loader.jpg",
+"Mobile Crane":"mobile-crane.jpg"
+}
+
+const plantType=document.getElementById("plantType")
+const form=document.getElementById("inspectionForm")
+const popup=document.getElementById("successPopup")
+const hiddenFrame=document.getElementById("hiddenFrame")
+const submitBtn=document.getElementById("submitBtn")
+
+let awaitingSubmission=false
+
+plantType.addEventListener("change",function(){
+const img=plantImages[this.value]||"excavator.jpg"
+document.documentElement.style.setProperty("--bgImage",`url("${img}")`)
+})
+
+function setCheck(btn,value){
+
+const container=btn.parentElement
+const hidden=container.querySelector("input")
+const buttons=container.querySelectorAll("button")
+
+hidden.value=value
+buttons.forEach(b=>b.style.opacity=0.4)
+btn.style.opacity=1
+
+if(value==="Defect"){
+alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
+}
+
+}
+
+hiddenFrame.addEventListener("load",function(){
+
+if(!awaitingSubmission)return
+
+popup.style.display="block"
+
+setTimeout(()=>{
+popup.style.display="none"
+form.reset()
+
+document.querySelectorAll(".btn-group button").forEach(b=>{
+b.style.opacity=1
+})
+
+document.querySelectorAll("input[type='hidden']").forEach(i=>{
+i.value=""
+})
+
+document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")')
+
+submitBtn.disabled=false
+awaitingSubmission=false
+
+},1800)
+
+})
+
+form.addEventListener("submit",function(e){
+
+const hiddenChecks=Array.from(document.querySelectorAll(".btn-group input[type='hidden']"))
+const hasUnanswered=hiddenChecks.some(input=>input.value.trim()==="")
+const hasDefect=hiddenChecks.some(input=>input.value==="Defect")
+const notes=document.getElementById("defectNotes").value.trim()
+
+if(hasUnanswered){
+e.preventDefault()
+alert("⚠ Please complete every machine check before submitting.\n\nSelect either OK or Defect for each item.")
+submitBtn.disabled=false
+return
+}
+
+if(hasDefect && notes===""){
+e.preventDefault()
+alert("⚠ A defect has been recorded.\n\nPlease describe the defect in the notes box before submitting.")
+document.getElementById("defectNotes").focus()
+submitBtn.disabled=false
+return
+}
+
+if(submitBtn.disabled){
+e.preventDefault()
+return
+}
+
+submitBtn.disabled=true
+awaitingSubmission=true
+
+})
+
+</script>
+
+</body>
+</html>
+
