@@ -1,263 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plant Pre-Start Inspection</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  font-family:"Segoe UI", Arial, sans-serif;
+box-sizing:border-box;
+font-family:"Segoe UI",Arial,sans-serif;
 }
 
 :root{
-  --bgImage:url("excavator.jpg");
-  --primary:#f4b400;
-  --primary-dark:#c99200;
-  --success:#1f8f4e;
-  --danger:#c0392b;
-  --text:#1f2933;
-  --muted:#64748b;
-  --border:#d7dee6;
-  --panel:#ffffff;
-  --panel-soft:rgba(255,255,255,0.97);
-  --shadow:0 14px 34px rgba(0,0,0,0.18);
+--bgImage:url("excavator.jpg");
+--primary:#f4b400;
+--primary-dark:#c99200;
+--success:#1f8f4e;
+--danger:#c0392b;
+--text:#1f2933;
+--muted:#64748b;
+--border:#d7dee6;
+--panel-soft:rgba(255,255,255,0.96);
+--shadow:0 14px 34px rgba(0,0,0,0.18);
 }
 
 body{
-  margin:0;
-  color:white;
-  min-height:100vh;
-  background:#3f454b;
+margin:0;
+color:white;
+min-height:100vh;
+background:#3f454b;
 }
 
 body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(rgba(15,23,42,0.72), rgba(15,23,42,0.8)),
-    var(--bgImage);
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  z-index:-2;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
-  z-index:-1;
+content:"";
+position:fixed;
+inset:0;
+background:
+linear-gradient(rgba(15,23,42,0.72), rgba(15,23,42,0.78)),
+var(--bgImage);
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+z-index:-2;
+transition:background-image .4s ease;
 }
 
 .app-header{
-  background:linear-gradient(90deg, rgba(244,180,0,0.97), rgba(224,164,0,0.97));
-  color:#111;
-  border-bottom:3px solid rgba(0,0,0,0.14);
-  box-shadow:0 8px 24px rgba(0,0,0,0.16);
-}
-
-.header-inner{
-  max-width:1060px;
-  margin:0 auto;
-  padding:20px 24px;
-  display:grid;
-  grid-template-columns:180px 1fr 180px;
-  align-items:center;
-  gap:16px;
-}
-
-.header-logo-box{
-  display:flex;
-  align-items:center;
-}
-
-.header-logo{
-  max-width:140px;
-  max-height:56px;
-}
-
-.header-title{
-  text-align:center;
+background:linear-gradient(90deg, rgba(244,180,0,0.97), rgba(224,164,0,0.97));
+color:#111;
+border-bottom:3px solid rgba(0,0,0,0.14);
+box-shadow:0 8px 24px rgba(0,0,0,0.16);
+text-align:center;
+padding:22px;
 }
 
 .header-title p{
-  margin:0 0 4px 0;
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:1px;
-  text-transform:uppercase;
+margin:0;
+font-size:12px;
+font-weight:700;
+letter-spacing:1px;
+text-transform:uppercase;
 }
 
 .header-title h1{
-  margin:0;
-  font-size:28px;
+margin:4px 0;
+font-size:28px;
 }
 
-.header-title .header-sub{
-  margin-top:4px;
-  font-size:13px;
-  font-weight:600;
+.header-sub{
+font-size:13px;
+font-weight:600;
 }
 
-.header-status{
-  display:flex;
-  justify-content:flex-end;
+.logo-section{
+text-align:center;
+padding:16px 0 6px 0;
 }
 
-.header-pill{
-  padding:10px 16px;
-  border-radius:999px;
-  border:1px solid rgba(0,0,0,0.14);
-  background:rgba(255,255,255,0.3);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:0.7px;
+.logo-section img{
+max-width:200px;
+max-height:80px;
 }
 
 .container{
-  max-width:1060px;
-  margin:30px auto;
-  padding:0 20px 28px;
+max-width:860px;
+margin:28px auto;
+padding:0 20px 28px;
 }
 
 .form-shell{
-  background:rgba(255,255,255,0.08);
-  border-radius:20px;
-  padding:20px;
+background:rgba(255,255,255,0.08);
+border-radius:18px;
+padding:18px;
 }
 
 .card{
-  background:var(--panel-soft);
-  color:var(--text);
-  border-radius:16px;
-  padding:22px;
-  margin-bottom:20px;
-  border:1px solid rgba(15,23,42,0.08);
-  box-shadow:var(--shadow);
+background:var(--panel-soft);
+color:var(--text);
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+border:1px solid rgba(15,23,42,0.08);
+box-shadow:var(--shadow);
 }
 
 .card h2{
-  margin:0 0 14px 0;
-  font-size:19px;
-  border-bottom:2px solid var(--primary);
-  padding-bottom:8px;
+margin:0 0 16px 0;
+font-size:18px;
+border-bottom:2px solid var(--primary);
+padding-bottom:6px;
 }
 
 .card-intro{
-  margin:0 0 16px 0;
-  color:var(--muted);
+margin:-6px 0 14px 0;
+color:var(--muted);
+font-size:14px;
 }
 
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
 }
 
 .form-group{
-  display:flex;
-  flex-direction:column;
+display:flex;
+flex-direction:column;
 }
 
 label{
-  font-weight:700;
-  margin-bottom:6px;
+font-weight:700;
+margin-bottom:6px;
 }
 
 input,select,textarea{
-  width:100%;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid var(--border);
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
 }
 
 textarea{
-  min-height:130px;
+min-height:120px;
 }
 
 .check-list{
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  background:#fff;
+border:1px solid var(--border);
+border-radius:12px;
+overflow:hidden;
+background:#fff;
 }
 
 .check-item{
-  display:grid;
-  grid-template-columns:1fr auto;
-  padding:16px 18px;
-  border-bottom:1px solid #e8edf2;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 16px;
+border-bottom:1px solid #e8edf2;
 }
 
 .btn-group{
-  display:flex;
-  gap:10px;
+display:flex;
+gap:8px;
 }
 
 .status-btn{
-  border:2px solid #d6dde4;
-  background:#fff;
-  padding:10px 18px;
-  border-radius:10px;
-  font-weight:800;
-  cursor:pointer;
-  min-width:98px;
+border:none;
+padding:10px 14px;
+border-radius:8px;
+font-weight:700;
+cursor:pointer;
+min-width:80px;
 }
 
-.status-btn.selected-ok{
-  background:#e8f7ee;
-  border-color:var(--success);
-  color:var(--success);
+.ok{
+background:#2ecc71;
+color:white;
 }
 
-.status-btn.selected-defect{
-  background:#fdeaea;
-  border-color:var(--danger);
-  color:var(--danger);
-}
-
-.notes-warning{
-  display:none;
-  margin-top:12px;
-  padding:11px;
-  border-radius:10px;
-  background:#fff4e5;
-  border:1px solid #f3cf8b;
+.defect{
+background:#e74c3c;
+color:white;
 }
 
 .submit-btn{
-  width:100%;
-  background:var(--primary);
-  border:none;
-  padding:17px;
-  border-radius:12px;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer;
+width:100%;
+background:#f4b400;
+border:none;
+padding:16px;
+border-radius:10px;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
 }
 
 .footer{
-  text-align:center;
-  font-size:12px;
-  padding:10px 12px 22px;
-  color:rgba(255,255,255,0.82);
+text-align:center;
+font-size:12px;
+padding:12px;
 }
 
 .success-popup{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1f8f4e;
-  color:white;
-  padding:20px 28px;
-  border-radius:12px;
-  font-weight:700;
-  display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#2ecc71;
+color:white;
+padding:20px 28px;
+border-radius:12px;
+font-weight:600;
+font-size:18px;
+display:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+z-index:999;
+text-align:center;
 }
 
 </style>
@@ -266,22 +225,238 @@ textarea{
 <body>
 
 <div class="app-header">
-
-<div class="header-inner">
-
-<div class="header-logo-box">
-<img src="logo-placeholder.png" class="header-logo">
-</div>
-
 <div class="header-title">
 <p>Site Safety Inspection Record</p>
 <h1>Plant Pre-Start Inspection</h1>
 <div class="header-sub">Daily Operator Machinery Check</div>
 </div>
-
-<div class="header-status">
-<div class="header-pill">Inspection Form</div>
 </div>
 
+<div class="logo-section">
+<img src="logo-placeholder.png">
+</div>
+
+<div class="container">
+<div class="form-shell">
+
+<form
+id="inspectionForm"
+method="POST"
+action="https://script.google.com/macros/s/AKfycbwdMdlfqh1XXkMMNzRUzAUfn8CxJFBPm0oBJW9XqlI1x1VJ6RaEU_LjWsv_VrPgJy84/exec"
+target="hiddenFrame"
+>
+
+<div class="card">
+
+<h2>Operator Details</h2>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Operator Name</label>
+<input name="operator" required>
+</div>
+
+<div class="form-group">
+<label>Plant Type</label>
+
+<select id="plantType" name="plantType" required>
+
+<option value="">Select Plant</option>
+<option value="Excavator">Excavator</option>
+<option value="Dumper">Dumper</option>
+<option value="Roller">Roller</option>
+<option value="Telehandler">Telehandler</option>
+<option value="ADT">ADT</option>
+<option value="Shovel Loader">Shovel Loader</option>
+<option value="Mobile Crane">Mobile Crane</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Machine ID</label>
+<input name="machineID" required>
+</div>
+
 </div>
 </div>
+
+<div class="card">
+
+<h2>Machine Checks</h2>
+
+<div class="check-list">
+
+<div class="check-item">
+<div>Fluid Leaks</div>
+
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="fluidLeaks">
+</div>
+</div>
+
+<div class="check-item">
+<div>Hydraulic Hoses</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="hydraulicHoses">
+</div>
+</div>
+
+<div class="check-item">
+<div>Engine Oil</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="engineOil">
+</div>
+</div>
+
+<div class="check-item">
+<div>Coolant</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="coolant">
+</div>
+</div>
+
+<div class="check-item">
+<div>Tracks / Tyres</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="tracks">
+</div>
+</div>
+
+<div class="check-item">
+<div>Lights</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="lights">
+</div>
+</div>
+
+<div class="check-item">
+<div>Horn / Alarm</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="alarm">
+</div>
+</div>
+
+<div class="check-item">
+<div>Controls</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="controls">
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<h2>Defect Notes</h2>
+
+<textarea name="defectNotes"></textarea>
+
+</div>
+
+<button class="submit-btn" type="submit">Submit Inspection</button>
+
+</form>
+
+</div>
+</div>
+
+<div class="footer">Plant Inspection System</div>
+
+<div id="successPopup" class="success-popup">
+Inspection Submitted Successfully ✔
+</div>
+
+<iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
+
+<script>
+
+const plantImages={
+Excavator:"excavator.jpg",
+Dumper:"dumper.jpg",
+Roller:"roller.jpg",
+Telehandler:"telehandler.jpg",
+ADT:"adt.jpg",
+"Shovel Loader":"shovel-loader.jpg",
+"Mobile Crane":"mobile-crane.jpg"
+}
+
+const plantType=document.getElementById("plantType")
+const form=document.getElementById("inspectionForm")
+const popup=document.getElementById("successPopup")
+const hiddenFrame=document.getElementById("hiddenFrame")
+
+let awaitingSubmission=false
+
+plantType.addEventListener("change",function(){
+const img=plantImages[this.value]||"excavator.jpg"
+document.documentElement.style.setProperty("--bgImage",`url("${img}")`)
+})
+
+function setCheck(btn,value){
+
+const container=btn.parentElement
+const hidden=container.querySelector("input")
+const buttons=container.querySelectorAll("button")
+
+hidden.value=value
+buttons.forEach(b=>b.style.opacity=0.4)
+btn.style.opacity=1
+
+if(value==="Defect"){
+alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
+}
+
+}
+
+hiddenFrame.addEventListener("load",function(){
+
+if(!awaitingSubmission)return
+
+popup.style.display="block"
+
+setTimeout(()=>{
+popup.style.display="none"
+form.reset()
+
+document.querySelectorAll(".btn-group button").forEach(b=>{
+b.style.opacity=1
+})
+
+document.querySelectorAll("input[type='hidden']").forEach(i=>{
+i.value=""
+})
+
+awaitingSubmission=false
+
+},1800)
+
+})
+
+form.addEventListener("submit",function(){
+awaitingSubmission=true
+})
+
+</script>
+
+</body>
+</html>
