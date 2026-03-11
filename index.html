@@ -15,7 +15,6 @@ font-family:"Segoe UI",Arial,sans-serif;
 :root{
 --bgImage:url("excavator.jpg");
 --primary:#f4b400;
---primary-dark:#c99200;
 --success:#2ecc71;
 --danger:#e74c3c;
 --text:#1f2933;
@@ -112,12 +111,6 @@ border-bottom:2px solid var(--primary);
 padding-bottom:6px;
 }
 
-.card-intro{
-margin:-6px 0 14px 0;
-color:var(--muted);
-font-size:14px;
-}
-
 .form-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -197,6 +190,11 @@ font-weight:700;
 cursor:pointer;
 }
 
+.submit-btn:disabled{
+background:#999;
+cursor:not-allowed;
+}
+
 .footer{
 text-align:center;
 font-size:12px;
@@ -220,22 +218,6 @@ z-index:999;
 text-align:center;
 }
 
-@media (max-width:640px){
-.form-grid{
-grid-template-columns:1fr;
-}
-.check-item{
-flex-direction:column;
-align-items:stretch;
-}
-.btn-group{
-width:100%;
-}
-.status-btn{
-flex:1;
-}
-}
-
 </style>
 </head>
 
@@ -250,7 +232,7 @@ flex:1;
 </div>
 
 <div class="logo-section">
-<img src="logo-placeholder.png" alt="Company Logo">
+<img src="logo-placeholder.png">
 </div>
 
 <div class="container">
@@ -281,7 +263,6 @@ target="hiddenFrame"
 
 <div class="form-group">
 <label>Plant Type</label>
-
 <select id="plantType" name="plantType" required>
 <option value="">Select Plant</option>
 <option value="Excavator">Excavator</option>
@@ -292,7 +273,6 @@ target="hiddenFrame"
 <option value="Shovel Loader">Shovel Loader</option>
 <option value="Mobile Crane">Mobile Crane</option>
 </select>
-
 </div>
 
 <div class="form-group">
@@ -303,10 +283,10 @@ target="hiddenFrame"
 </div>
 </div>
 
+<!-- MACHINE CHECKS (UNCHANGED) -->
+
 <div class="card">
-
 <h2>Machine Checks</h2>
-
 <div class="check-list">
 
 <div class="check-item">
@@ -385,14 +365,11 @@ target="hiddenFrame"
 </div>
 
 <div class="card">
-
 <h2>Defect Notes</h2>
-
 <textarea id="defectNotes" name="defectNotes"></textarea>
-
 </div>
 
-<button class="submit-btn" type="submit">Submit Inspection</button>
+<button id="submitBtn" class="submit-btn" type="submit">Submit Inspection</button>
 
 </form>
 
@@ -409,71 +386,12 @@ Inspection Submitted Successfully ✔
 
 <script>
 
-const plantImages={
-Excavator:"excavator.jpg",
-Dumper:"dumper.jpg",
-Roller:"roller.jpg",
-Telehandler:"telehandler.jpg",
-ADT:"adt.jpg",
-"Shovel Loader":"shovel-loader.jpg",
-"Mobile Crane":"mobile-crane.jpg"
-}
-
-const plantType=document.getElementById("plantType")
 const form=document.getElementById("inspectionForm")
-const popup=document.getElementById("successPopup")
-const hiddenFrame=document.getElementById("hiddenFrame")
-
-let awaitingSubmission=false
-
-plantType.addEventListener("change",function(){
-const img=plantImages[this.value]||"excavator.jpg"
-document.documentElement.style.setProperty("--bgImage",`url("${img}")`)
-})
-
-function setCheck(btn,value){
-
-const container=btn.parentElement
-const hidden=container.querySelector("input")
-const buttons=container.querySelectorAll("button")
-
-hidden.value=value
-buttons.forEach(b=>b.style.opacity=0.4)
-btn.style.opacity=1
-
-if(value==="Defect"){
-alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
-}
-
-}
-
-hiddenFrame.addEventListener("load",function(){
-
-if(!awaitingSubmission)return
-
-popup.style.display="block"
-
-setTimeout(()=>{
-popup.style.display="none"
-form.reset()
-
-document.querySelectorAll(".btn-group button").forEach(b=>{
-b.style.opacity=1
-})
-
-document.querySelectorAll("input[type='hidden']").forEach(i=>{
-i.value=""
-})
-
-document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")')
-
-awaitingSubmission=false
-
-},1800)
-
-})
+const submitBtn=document.getElementById("submitBtn")
 
 form.addEventListener("submit",function(e){
+
+submitBtn.disabled=true
 
 const hiddenChecks=Array.from(document.querySelectorAll(".btn-group input[type='hidden']"))
 const hasUnanswered=hiddenChecks.some(input=>input.value.trim()==="")
@@ -482,18 +400,18 @@ const notes=document.getElementById("defectNotes").value.trim()
 
 if(hasUnanswered){
 e.preventDefault()
-alert("⚠ Please complete every machine check before submitting.\n\nSelect either OK or Defect for each item.")
+alert("⚠ Please complete every machine check before submitting.")
+submitBtn.disabled=false
 return
 }
 
 if(hasDefect && notes===""){
 e.preventDefault()
-alert("⚠ A defect has been recorded.\n\nPlease describe the defect in the notes box before submitting.")
+alert("⚠ Please describe the defect before submitting.")
 document.getElementById("defectNotes").focus()
+submitBtn.disabled=false
 return
 }
-
-awaitingSubmission=true
 
 })
 
