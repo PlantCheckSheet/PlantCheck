@@ -6,7 +6,6 @@
 <title>Plant Pre-Start Inspection</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 font-family:"Segoe UI",Arial,sans-serif;
@@ -162,6 +161,10 @@ border-bottom:1px solid #e8edf2;
 gap:12px;
 }
 
+.check-item.hidden-check{
+display:none;
+}
+
 .btn-group{
 display:flex;
 gap:8px;
@@ -240,7 +243,6 @@ width:100%;
 flex:1;
 }
 }
-
 </style>
 </head>
 
@@ -269,11 +271,9 @@ target="hiddenFrame"
 >
 
 <div class="card">
-
 <h2>Operator Details</h2>
 
 <div class="form-grid">
-
 <div class="form-group">
 <label>Operator Name</label>
 <input name="operator" required>
@@ -286,7 +286,6 @@ target="hiddenFrame"
 
 <div class="form-group">
 <label>Plant Type</label>
-
 <select id="plantType" name="plantType" required>
 <option value="">Select Plant</option>
 <option value="Excavator">Excavator</option>
@@ -297,24 +296,23 @@ target="hiddenFrame"
 <option value="Shovel Loader">Shovel Loader</option>
 <option value="Mobile Crane">Mobile Crane</option>
 </select>
-
 </div>
 
 <div class="form-group">
 <label>Machine ID</label>
 <input name="machineID" required>
 </div>
-
 </div>
 </div>
 
 <div class="card">
-
 <h2>Machine Checks</h2>
+<p class="card-intro">Only checks relevant to the selected plant will be shown.</p>
 
 <div class="check-list">
 
-<div class="check-item">
+<!-- COMMON CHECKS -->
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Fluid Leaks</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -323,16 +321,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item">
-<div>Hydraulic Hoses</div>
-<div class="btn-group">
-<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="hydraulicHoses">
-</div>
-</div>
-
-<div class="check-item">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Engine Oil</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -341,7 +330,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Coolant</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -350,16 +339,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item">
-<div>Tracks / Tyres</div>
-<div class="btn-group">
-<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
-<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
-<input type="hidden" name="tracks">
-</div>
-</div>
-
-<div class="check-item">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Lights</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -368,7 +348,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Horn / Alarm</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -377,7 +357,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
 <div>Controls</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -386,19 +366,113 @@ target="hiddenFrame"
 </div>
 </div>
 
+<!-- HYDRAULIC MACHINES -->
+<div class="check-item hidden-check" data-plants="Excavator,Telehandler,Shovel Loader,Mobile Crane">
+<div>Hydraulic Hoses</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="hydraulicHoses">
+</div>
+</div>
+
+<!-- TRACKS / TYRES -->
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader">
+<div>Tracks / Tyres</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="tracks">
+</div>
+</div>
+
+<!-- EXCAVATOR -->
+<div class="check-item hidden-check" data-plants="Excavator">
+<div>Boom / Dipper / Bucket</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="boomDipperBucket">
+</div>
+</div>
+
+<!-- DUMPER / ADT -->
+<div class="check-item hidden-check" data-plants="Dumper,ADT">
+<div>Body / Skip Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="bodySkipCondition">
+</div>
+</div>
+
+<!-- ROLLER -->
+<div class="check-item hidden-check" data-plants="Roller">
+<div>Drum Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="drumCondition">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Roller">
+<div>Water Spray System</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="waterSpraySystem">
+</div>
+</div>
+
+<!-- TELEHANDLER -->
+<div class="check-item hidden-check" data-plants="Telehandler">
+<div>Forks / Carriage</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="forksCarriage">
+</div>
+</div>
+
+<!-- SHOVEL LOADER -->
+<div class="check-item hidden-check" data-plants="Shovel Loader">
+<div>Bucket / Linkage</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="bucketLinkage">
+</div>
+</div>
+
+<!-- MOBILE CRANE -->
+<div class="check-item hidden-check" data-plants="Mobile Crane">
+<div>Hook / Chains / Lifting Gear</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="hookChainsLiftingGear">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Mobile Crane">
+<div>Outriggers</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="outriggers">
+</div>
+</div>
+
 </div>
 </div>
 
 <div class="card">
-
 <h2>Defect Notes</h2>
-
 <textarea id="defectNotes" name="defectNotes"></textarea>
-
 </div>
 
 <button id="submitBtn" class="submit-btn" type="submit">Submit Inspection</button>
-
 </form>
 
 </div>
@@ -413,7 +487,6 @@ Inspection Submitted Successfully ✔
 <iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
-
 const plantImages={
 Excavator:"excavator.jpg",
 Dumper:"dumper.jpg",
@@ -429,16 +502,40 @@ const form=document.getElementById("inspectionForm")
 const popup=document.getElementById("successPopup")
 const hiddenFrame=document.getElementById("hiddenFrame")
 const submitBtn=document.getElementById("submitBtn")
+const checkItems=document.querySelectorAll(".check-item")
 
 let awaitingSubmission=false
 
 plantType.addEventListener("change",function(){
-const img=plantImages[this.value]||"excavator.jpg"
+const selectedPlant=this.value
+const img=plantImages[selectedPlant]||"excavator.jpg"
 document.documentElement.style.setProperty("--bgImage",`url("${img}")`)
+updateVisibleChecks(selectedPlant)
 })
 
-function setCheck(btn,value){
+function updateVisibleChecks(selectedPlant){
+checkItems.forEach(item=>{
+const plants=item.dataset.plants ? item.dataset.plants.split(",") : []
+const hiddenInput=item.querySelector("input[type='hidden']")
+const buttons=item.querySelectorAll("button")
 
+if(plants.includes(selectedPlant)){
+item.classList.remove("hidden-check")
+} else {
+item.classList.add("hidden-check")
+
+if(hiddenInput){
+hiddenInput.value=""
+}
+
+buttons.forEach(btn=>{
+btn.style.opacity=1
+})
+}
+})
+}
+
+function setCheck(btn,value){
 const container=btn.parentElement
 const hidden=container.querySelector("input")
 const buttons=container.querySelectorAll("button")
@@ -450,11 +547,9 @@ btn.style.opacity=1
 if(value==="Defect"){
 alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
 }
-
 }
 
 hiddenFrame.addEventListener("load",function(){
-
 if(!awaitingSubmission)return
 
 popup.style.display="block"
@@ -471,25 +566,40 @@ document.querySelectorAll("input[type='hidden']").forEach(i=>{
 i.value=""
 })
 
+document.querySelectorAll(".check-item").forEach(item=>{
+item.classList.add("hidden-check")
+})
+
 document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")')
 
 submitBtn.disabled=false
 awaitingSubmission=false
-
 },1800)
-
 })
 
 form.addEventListener("submit",function(e){
-
-const hiddenChecks=Array.from(document.querySelectorAll(".btn-group input[type='hidden']"))
-const hasUnanswered=hiddenChecks.some(input=>input.value.trim()==="")
-const hasDefect=hiddenChecks.some(input=>input.value==="Defect")
+const visibleChecks=Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"))
+const hasUnanswered=visibleChecks.some(input=>input.value.trim()==="")
+const hasDefect=visibleChecks.some(input=>input.value==="Defect")
 const notes=document.getElementById("defectNotes").value.trim()
+
+if(plantType.value===""){
+e.preventDefault()
+alert("⚠ Please select a plant type before submitting.")
+submitBtn.disabled=false
+return
+}
+
+if(visibleChecks.length===0){
+e.preventDefault()
+alert("⚠ No checks are available for the selected plant.")
+submitBtn.disabled=false
+return
+}
 
 if(hasUnanswered){
 e.preventDefault()
-alert("⚠ Please complete every machine check before submitting.\n\nSelect either OK or Defect for each item.")
+alert("⚠ Please complete every visible machine check before submitting.\n\nSelect either OK or Defect for each item.")
 submitBtn.disabled=false
 return
 }
@@ -509,11 +619,8 @@ return
 
 submitBtn.disabled=true
 awaitingSubmission=true
-
 })
-
 </script>
 
 </body>
 </html>
-
