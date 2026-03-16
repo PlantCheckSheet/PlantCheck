@@ -295,6 +295,10 @@ target="hiddenFrame"
 <option value="ADT">ADT</option>
 <option value="Shovel Loader">Shovel Loader</option>
 <option value="Mobile Crane">Mobile Crane</option>
+<option value="Petrol Cut Off Saw">Petrol Cut Off Saw</option>
+<option value="Generator">Generator</option>
+<option value="CAT & Genny">CAT & Genny</option>
+<option value="MEWP">MEWP</option>
 </select>
 </div>
 
@@ -311,8 +315,8 @@ target="hiddenFrame"
 
 <div class="check-list">
 
-<!-- COMMON CHECKS -->
-<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
+<!-- COMMON CHECKS FOR LARGE PLANT -->
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane,Generator,MEWP">
 <div>Fluid Leaks</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -321,7 +325,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane,Generator">
 <div>Engine Oil</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -339,7 +343,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane,MEWP">
 <div>Lights</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -348,7 +352,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane,MEWP">
 <div>Horn / Alarm</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -357,7 +361,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane">
+<div class="check-item hidden-check" data-plants="Excavator,Dumper,Roller,Telehandler,ADT,Shovel Loader,Mobile Crane,Generator,MEWP">
 <div>Controls</div>
 <div class="btn-group">
 <button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
@@ -366,7 +370,7 @@ target="hiddenFrame"
 </div>
 </div>
 
-<!-- HYDRAULIC MACHINES -->
+<!-- HYDRAULIC LARGE PLANT -->
 <div class="check-item hidden-check" data-plants="Excavator,Telehandler,Shovel Loader,Mobile Crane">
 <div>Hydraulic Hoses</div>
 <div class="btn-group">
@@ -464,6 +468,190 @@ target="hiddenFrame"
 </div>
 </div>
 
+<!-- PETROL CUT OFF SAW -->
+<div class="check-item hidden-check" data-plants="Petrol Cut Off Saw">
+<div>Blade Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="bladeCondition">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Petrol Cut Off Saw">
+<div>Blade Guard</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="bladeGuard">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Petrol Cut Off Saw">
+<div>Fuel Cap Secure</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="fuelCapSecure">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Petrol Cut Off Saw">
+<div>Fuel / Oil Leaks</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="sawFuelOilLeaks">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Petrol Cut Off Saw">
+<div>Throttle / Stop Switch</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="throttleStopSwitch">
+</div>
+</div>
+
+<!-- GENERATOR -->
+<div class="check-item hidden-check" data-plants="Generator">
+<div>Fuel Level / Fuel Leaks</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="generatorFuelLeaks">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Generator">
+<div>Sockets / Outlets</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="generatorSockets">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Generator">
+<div>Cables / Leads</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="generatorCables">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="Generator">
+<div>Emergency Stop</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="generatorEmergencyStop">
+</div>
+</div>
+
+<!-- CAT & GENNY -->
+<div class="check-item hidden-check" data-plants="CAT & Genny">
+<div>Transmitter Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="catTransmitterCondition">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="CAT & Genny">
+<div>Receiver Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="gennyReceiverCondition">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="CAT & Genny">
+<div>Leads / Connection Cables</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="catGennyLeads">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="CAT & Genny">
+<div>Battery Condition</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="catGennyBattery">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="CAT & Genny">
+<div>Function Test</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="catGennyFunctionTest">
+</div>
+</div>
+
+<!-- MEWP -->
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Tyres / Wheels</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpTyres">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Hydraulic Hoses</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpHydraulicHoses">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Guard Rails / Gate</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpGuardRailsGate">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Emergency Lowering Controls</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpEmergencyLowering">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Platform Controls</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpPlatformControls">
+</div>
+</div>
+
+<div class="check-item hidden-check" data-plants="MEWP">
+<div>Tilt Alarm / Safety Devices</div>
+<div class="btn-group">
+<button type="button" class="status-btn ok" onclick="setCheck(this,'OK')">OK</button>
+<button type="button" class="status-btn defect" onclick="setCheck(this,'Defect')">Defect</button>
+<input type="hidden" name="mewpTiltAlarm">
+</div>
+</div>
+
 </div>
 </div>
 
@@ -473,8 +661,8 @@ target="hiddenFrame"
 </div>
 
 <button id="submitBtn" class="submit-btn" type="submit">Submit Inspection</button>
-</form>
 
+</form>
 </div>
 </div>
 
@@ -494,7 +682,11 @@ Roller:"roller.jpg",
 Telehandler:"telehandler.jpg",
 ADT:"adt.jpg",
 "Shovel Loader":"shovel-loader.jpg",
-"Mobile Crane":"mobile-crane.jpg"
+"Mobile Crane":"mobile-crane.jpg",
+"Petrol Cut Off Saw":"petrol-cut-off-saw.jpg",
+"Generator":"generator.jpg",
+"CAT & Genny":"cat-genny.jpg",
+"MEWP":"mewp.jpg"
 }
 
 const plantType=document.getElementById("plantType")
