@@ -117,6 +117,35 @@ color:var(--muted);
 font-size:14px;
 }
 
+.progress-wrap{
+display:flex;
+flex-direction:column;
+gap:8px;
+margin:-4px 0 14px 0;
+}
+
+.progress-text{
+font-size:14px;
+font-weight:700;
+color:var(--text);
+}
+
+.progress-bar{
+width:100%;
+height:10px;
+background:#e8edf2;
+border-radius:999px;
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg, #f4b400, #e0a400);
+border-radius:999px;
+transition:width .25s ease;
+}
+
 .form-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -159,10 +188,16 @@ align-items:center;
 padding:12px 16px;
 border-bottom:1px solid #e8edf2;
 gap:12px;
+transition:background-color .2s ease, border-left .2s ease;
 }
 
 .check-item.hidden-check{
 display:none;
+}
+
+.check-item.defect-selected{
+background:#fff1f0;
+border-left:5px solid var(--danger);
 }
 
 .btn-group{
@@ -267,7 +302,6 @@ flex:1;
 id="inspectionForm"
 method="POST"
 action="https://script.google.com/macros/s/AKfycbzjACREYNAtHTTKuPlx3vEMtxOFBY7lNM_ADSe9hkMsYbzy6libLTIvovt5KnXOEm74/exec"
-target="hiddenFrame"
 >
 
 <div class="card">
@@ -281,9 +315,9 @@ target="hiddenFrame"
 
 <div class="form-group">
 <label>Site Location</label>
-<select name="siteLocation" required>
-<option value="">Select Site</option>
 
+<select id="siteDropdown" required>
+<option value="">Select Site</option>
 <option value="Alum Rock">Alum Rock</option>
 <option value="Birmingham">Birmingham</option>
 <option value="Brownhills">Brownhills</option>
@@ -297,8 +331,17 @@ target="hiddenFrame"
 <option value="Walsall">Walsall</option>
 <option value="Walsall Wood">Walsall Wood</option>
 <option value="West Brom">West Brom</option>
-
+<option value="Other">Other Site</option>
 </select>
+
+<input type="hidden" name="siteLocation" id="siteLocation">
+
+<input
+type="text"
+id="customSite"
+placeholder="Enter new site"
+style="display:none; margin-top:10px;"
+>
 </div>
 
 <div class="form-group">
@@ -329,6 +372,13 @@ target="hiddenFrame"
 <div class="card">
 <h2>Machine Checks</h2>
 <p class="card-intro">Only checks relevant to the selected plant will be shown.</p>
+
+<div class="progress-wrap">
+<div id="progressText" class="progress-text">0/0 checks complete</div>
+<div class="progress-bar">
+<div id="progressFill" class="progress-fill"></div>
+</div>
+</div>
 
 <div class="check-list">
 
@@ -677,7 +727,7 @@ target="hiddenFrame"
 <textarea id="defectNotes" name="defectNotes"></textarea>
 </div>
 
-<button id="submitBtn" class="submit-btn" type="submit">Submit Inspection</button>
+<button id="submitBtn" class="submit-btn" type="submit">Complete Inspection</button>
 
 </form>
 </div>
@@ -688,8 +738,6 @@ target="hiddenFrame"
 <div id="successPopup" class="success-popup">
 Inspection Submitted Successfully ✔
 </div>
-
-<iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
 const plantImages = {
@@ -711,12 +759,33 @@ const form = document.getElementById("inspectionForm");
 const popup = document.getElementById("successPopup");
 const submitBtn = document.getElementById("submitBtn");
 const checkItems = document.querySelectorAll(".check-item");
+const progressText = document.getElementById("progressText");
+const progressFill = document.getElementById("progressFill");
+const siteDropdown = document.getElementById("siteDropdown");
+const siteLocation = document.getElementById("siteLocation");
+const customSite = document.getElementById("customSite");
+
+function handleSiteChange() {
+  if (siteDropdown.value === "Other") {
+    customSite.style.display = "block";
+    customSite.required = true;
+    siteLocation.value = "";
+  } else {
+    customSite.style.display = "none";
+    customSite.required = false;
+    customSite.value = "";
+    siteLocation.value = siteDropdown.value;
+  }
+}
+
+siteDropdown.addEventListener("change", handleSiteChange);
 
 plantType.addEventListener("change", function () {
   const selectedPlant = this.value;
   const img = plantImages[selectedPlant] || "excavator.jpg";
   document.documentElement.style.setProperty("--bgImage", `url("${img}")`);
   updateVisibleChecks(selectedPlant);
+  updateProgress();
 });
 
 function updateVisibleChecks(selectedPlant) {
@@ -729,28 +798,74 @@ function updateVisibleChecks(selectedPlant) {
       item.classList.remove("hidden-check");
     } else {
       item.classList.add("hidden-check");
-      if (hiddenInput) hiddenInput.value = "";
-      buttons.forEach(btn => btn.style.opacity = 1);
+      item.classList.remove("defect-selected");
+
+      if (hiddenInput) {
+        hiddenInput.value = "";
+      }
+
+      buttons.forEach(btn => {
+        btn.style.opacity = 1;
+      });
     }
   });
+}
+
+function updateProgress() {
+  const visibleChecks = Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"));
+  const totalChecks = visibleChecks.length;
+  const completedChecks = visibleChecks.filter(input => input.value.trim() !== "").length;
+  const percent = totalChecks > 0 ? (completedChecks / totalChecks) * 100 : 0;
+
+  progressText.textContent = `${completedChecks}/${totalChecks} checks complete`;
+  progressFill.style.width = `${percent}%`;
+}
+
+function triggerDefectFeedback() {
+  if (navigator.vibrate) {
+    navigator.vibrate([120, 80, 120]);
+  }
 }
 
 function setCheck(btn, value) {
   const container = btn.parentElement;
   const hidden = container.querySelector("input");
   const buttons = container.querySelectorAll("button");
+  const checkItem = btn.closest(".check-item");
 
   hidden.value = value;
   buttons.forEach(b => b.style.opacity = 0.4);
   btn.style.opacity = 1;
 
   if (value === "Defect") {
+    checkItem.classList.add("defect-selected");
+    triggerDefectFeedback();
     alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.");
+  } else {
+    checkItem.classList.remove("defect-selected");
   }
+
+  updateProgress();
 }
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
+
+  if (siteDropdown.value === "") {
+    alert("⚠ Please select a site before submitting.");
+    return;
+  }
+
+  if (siteDropdown.value === "Other") {
+    if (customSite.value.trim() === "") {
+      alert("⚠ Please enter the site name.");
+      customSite.focus();
+      return;
+    }
+    siteLocation.value = customSite.value.trim();
+  } else {
+    siteLocation.value = siteDropdown.value;
+  }
 
   const visibleChecks = Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"));
   const hasUnanswered = visibleChecks.some(input => input.value.trim() === "");
@@ -779,6 +894,7 @@ form.addEventListener("submit", async function (e) {
   }
 
   submitBtn.disabled = true;
+  submitBtn.textContent = "Completing Inspection...";
 
   try {
     const formData = new FormData(form);
@@ -810,19 +926,33 @@ form.addEventListener("submit", async function (e) {
 
       document.querySelectorAll(".check-item").forEach(item => {
         item.classList.add("hidden-check");
+        item.classList.remove("defect-selected");
       });
 
       document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")');
 
+      siteDropdown.value = "";
+      siteLocation.value = "";
+      customSite.value = "";
+      customSite.style.display = "none";
+      customSite.required = false;
+
       submitBtn.disabled = false;
+      submitBtn.textContent = "Complete Inspection";
+
+      updateProgress();
 
     }, 1800);
 
   } catch (error) {
     alert("❌ Submission failed: " + error.message);
     submitBtn.disabled = false;
+    submitBtn.textContent = "Complete Inspection";
   }
 });
+
+handleSiteChange();
+updateProgress();
 </script>
 
 </body>
