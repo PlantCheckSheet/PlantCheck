@@ -675,143 +675,137 @@ Inspection Submitted Successfully ✔
 <iframe id="hiddenFrame" name="hiddenFrame" style="display:none;"></iframe>
 
 <script>
-const plantImages={
-Excavator:"excavator.jpg",
-Dumper:"dumper.jpg",
-Roller:"roller.jpg",
-Telehandler:"telehandler.jpg",
-ADT:"adt.jpg",
-"Shovel Loader":"shovel-loader.jpg",
-"Mobile Crane":"mobile-crane.jpg",
-"Petrol Cut Off Saw":"petrol-cut-off-saw.jpg",
-"Generator":"generator.jpg",
-"CAT & Genny":"cat-genny.jpg",
-"MEWP":"mewp.jpg"
+const plantImages = {
+  Excavator:"excavator.jpg",
+  Dumper:"dumper.jpg",
+  Roller:"roller.jpg",
+  Telehandler:"telehandler.jpg",
+  ADT:"adt.jpg",
+  "Shovel Loader":"shovel-loader.jpg",
+  "Mobile Crane":"mobile-crane.jpg",
+  "Petrol Cut Off Saw":"petrol-cut-off-saw.jpg",
+  "Generator":"generator.jpg",
+  "CAT & Genny":"cat-genny.jpg",
+  "MEWP":"mewp.jpg"
+};
+
+const plantType = document.getElementById("plantType");
+const form = document.getElementById("inspectionForm");
+const popup = document.getElementById("successPopup");
+const submitBtn = document.getElementById("submitBtn");
+const checkItems = document.querySelectorAll(".check-item");
+
+plantType.addEventListener("change", function () {
+  const selectedPlant = this.value;
+  const img = plantImages[selectedPlant] || "excavator.jpg";
+  document.documentElement.style.setProperty("--bgImage", `url("${img}")`);
+  updateVisibleChecks(selectedPlant);
+});
+
+function updateVisibleChecks(selectedPlant) {
+  checkItems.forEach(item => {
+    const plants = item.dataset.plants ? item.dataset.plants.split(",") : [];
+    const hiddenInput = item.querySelector("input[type='hidden']");
+    const buttons = item.querySelectorAll("button");
+
+    if (plants.includes(selectedPlant)) {
+      item.classList.remove("hidden-check");
+    } else {
+      item.classList.add("hidden-check");
+      if (hiddenInput) hiddenInput.value = "";
+      buttons.forEach(btn => btn.style.opacity = 1);
+    }
+  });
 }
 
-const plantType=document.getElementById("plantType")
-const form=document.getElementById("inspectionForm")
-const popup=document.getElementById("successPopup")
-const hiddenFrame=document.getElementById("hiddenFrame")
-const submitBtn=document.getElementById("submitBtn")
-const checkItems=document.querySelectorAll(".check-item")
+function setCheck(btn, value) {
+  const container = btn.parentElement;
+  const hidden = container.querySelector("input");
+  const buttons = container.querySelectorAll("button");
 
-let awaitingSubmission=false
+  hidden.value = value;
+  buttons.forEach(b => b.style.opacity = 0.4);
+  btn.style.opacity = 1;
 
-plantType.addEventListener("change",function(){
-const selectedPlant=this.value
-const img=plantImages[selectedPlant]||"excavator.jpg"
-document.documentElement.style.setProperty("--bgImage",`url("${img}")`)
-updateVisibleChecks(selectedPlant)
-})
-
-function updateVisibleChecks(selectedPlant){
-checkItems.forEach(item=>{
-const plants=item.dataset.plants ? item.dataset.plants.split(",") : []
-const hiddenInput=item.querySelector("input[type='hidden']")
-const buttons=item.querySelectorAll("button")
-
-if(plants.includes(selectedPlant)){
-item.classList.remove("hidden-check")
-} else {
-item.classList.add("hidden-check")
-
-if(hiddenInput){
-hiddenInput.value=""
+  if (value === "Defect") {
+    alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.");
+  }
 }
 
-buttons.forEach(btn=>{
-btn.style.opacity=1
-})
-}
-})
-}
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-function setCheck(btn,value){
-const container=btn.parentElement
-const hidden=container.querySelector("input")
-const buttons=container.querySelectorAll("button")
+  const visibleChecks = Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"));
+  const hasUnanswered = visibleChecks.some(input => input.value.trim() === "");
+  const hasDefect = visibleChecks.some(input => input.value === "Defect");
+  const notes = document.getElementById("defectNotes").value.trim();
 
-hidden.value=value
-buttons.forEach(b=>b.style.opacity=0.4)
-btn.style.opacity=1
+  if (plantType.value === "") {
+    alert("⚠ Please select a plant type before submitting.");
+    return;
+  }
 
-if(value==="Defect"){
-alert("⚠ DEFECT RECORDED\n\nPlease report this to site management.")
-}
-}
+  if (visibleChecks.length === 0) {
+    alert("⚠ No checks are available for the selected plant.");
+    return;
+  }
 
-hiddenFrame.addEventListener("load",function(){
-if(!awaitingSubmission)return
+  if (hasUnanswered) {
+    alert("⚠ Please complete every check.");
+    return;
+  }
 
-popup.style.display="block"
+  if (hasDefect && notes === "") {
+    alert("⚠ Please describe the defect.");
+    document.getElementById("defectNotes").focus();
+    return;
+  }
 
-setTimeout(()=>{
-popup.style.display="none"
-form.reset()
+  submitBtn.disabled = true;
 
-document.querySelectorAll(".btn-group button").forEach(b=>{
-b.style.opacity=1
-})
+  try {
+    const formData = new FormData(form);
 
-document.querySelectorAll("input[type='hidden']").forEach(i=>{
-i.value=""
-})
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData
+    });
 
-document.querySelectorAll(".check-item").forEach(item=>{
-item.classList.add("hidden-check")
-})
+    const text = await response.text();
 
-document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")')
+    if (!response.ok || text.toLowerCase().includes("error")) {
+      throw new Error(text);
+    }
 
-submitBtn.disabled=false
-awaitingSubmission=false
-},1800)
-})
+    popup.style.display = "block";
 
-form.addEventListener("submit",function(e){
-const visibleChecks=Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"))
-const hasUnanswered=visibleChecks.some(input=>input.value.trim()==="")
-const hasDefect=visibleChecks.some(input=>input.value==="Defect")
-const notes=document.getElementById("defectNotes").value.trim()
+    setTimeout(() => {
+      popup.style.display = "none";
+      form.reset();
 
-if(plantType.value===""){
-e.preventDefault()
-alert("⚠ Please select a plant type before submitting.")
-submitBtn.disabled=false
-return
-}
+      document.querySelectorAll(".btn-group button").forEach(b => {
+        b.style.opacity = 1;
+      });
 
-if(visibleChecks.length===0){
-e.preventDefault()
-alert("⚠ No checks are available for the selected plant.")
-submitBtn.disabled=false
-return
-}
+      document.querySelectorAll("input[type='hidden']").forEach(i => {
+        i.value = "";
+      });
 
-if(hasUnanswered){
-e.preventDefault()
-alert("⚠ Please complete every visible machine check before submitting.\n\nSelect either OK or Defect for each item.")
-submitBtn.disabled=false
-return
-}
+      document.querySelectorAll(".check-item").forEach(item => {
+        item.classList.add("hidden-check");
+      });
 
-if(hasDefect && notes===""){
-e.preventDefault()
-alert("⚠ A defect has been recorded.\n\nPlease describe the defect in the notes box before submitting.")
-document.getElementById("defectNotes").focus()
-submitBtn.disabled=false
-return
-}
+      document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")');
 
-if(submitBtn.disabled){
-e.preventDefault()
-return
-}
+      submitBtn.disabled = false;
 
-submitBtn.disabled=true
-awaitingSubmission=true
-})
+    }, 1800);
+
+  } catch (error) {
+    alert("❌ Submission failed: " + error.message);
+    submitBtn.disabled = false;
+  }
+});
 </script>
 
 </body>
