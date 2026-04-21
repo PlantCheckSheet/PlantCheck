@@ -1039,22 +1039,35 @@ window.addEventListener("online", syncPendingSubmissions);
 window.addEventListener("load", syncPendingSubmissions);
 </script>
 <script src="app.js"></script>
-<!-- Install button -->
-<button id="installAppBtn" class="install-btn" style="display:none;">
-  📲 Install for Offline Use
-</button>
+<!-- Install banner -->
+<div id="installBanner" class="install-banner hidden">
+  <div class="install-banner-inner">
+    <div class="install-banner-text">
+      <div class="install-banner-title">Install for offline use</div>
+      <div class="install-banner-subtitle">
+        Save this checksheet to your home screen for quicker access.
+      </div>
+    </div>
+
+    <button id="installBannerBtn" class="install-banner-btn" type="button">
+      Add
+    </button>
+
+    <button id="installBannerClose" class="install-banner-close" type="button" aria-label="Dismiss">
+      ✕
+    </button>
+  </div>
+</div>
 
 <!-- Install modal -->
 <div id="installModal" class="install-modal hidden">
   <div class="install-modal-content">
-    <button id="closeInstallModal" class="install-close-btn" aria-label="Close">
-      ✕
-    </button>
+    <button id="closeInstallModal" class="install-close-btn" aria-label="Close">✕</button>
 
     <div class="install-header">
       <div class="install-icon">📲</div>
-      <h2>Install Plant Checksheet</h2>
-      <p>Save this app to your home screen for quicker access and offline use.</p>
+      <h2>Add to Home Screen</h2>
+      <p>Install this checksheet for easier access and offline use.</p>
     </div>
 
     <div id="iosInstructions" class="install-instructions hidden">
@@ -1076,44 +1089,88 @@ window.addEventListener("load", syncPendingSubmissions);
       <div class="install-step">
         <div class="step-number">3</div>
         <div class="step-text">
-          Tap <strong>Add</strong> in the top-right corner
+          Tap <strong>Add</strong> in the top right
         </div>
       </div>
     </div>
 
     <div id="androidInstructions" class="install-instructions hidden">
-      <p style="margin-bottom:14px;">
-        Tap below to install the app on your device.
-      </p>
-      <button id="androidInstallBtn" class="android-install-btn">
+      <p class="install-copy">Tap below to install the app on your device.</p>
+      <button id="androidInstallBtn" class="android-install-btn" type="button">
         Install App
       </button>
     </div>
 
     <div id="genericInstructions" class="install-instructions hidden">
-      <p>
-        Use your browser menu and look for options like
-        <strong>Add to Home Screen</strong> or <strong>Install App</strong>.
+      <p class="install-copy">
+        Open your browser menu and look for <strong>Add to Home Screen</strong> or <strong>Install App</strong>.
       </p>
     </div>
   </div>
 </div>
 
 <style>
-  .install-btn {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
+  .hidden {
+    display: none !important;
+  }
+
+  .install-banner {
+    position: sticky;
+    top: 0;
     z-index: 999;
-    border: none;
+    padding: 10px 12px;
+    background: #f4f7f4;
+    border-bottom: 1px solid #d9e4d9;
+  }
+
+  .install-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid #d9e4d9;
     border-radius: 14px;
-    padding: 14px 18px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+    padding: 12px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .install-banner-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .install-banner-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f3527;
+    margin-bottom: 2px;
+  }
+
+  .install-banner-subtitle {
+    font-size: 12px;
+    color: #54705c;
+    line-height: 1.35;
+  }
+
+  .install-banner-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
     background: #2c7a4b;
     color: #fff;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .install-banner-close {
+    border: none;
+    background: transparent;
+    color: #6b7f70;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 6px;
   }
 
   .install-modal {
@@ -1125,10 +1182,6 @@ window.addEventListener("load", syncPendingSubmissions);
     justify-content: center;
     padding: 18px;
     z-index: 2000;
-  }
-
-  .install-modal.hidden {
-    display: none;
   }
 
   .install-modal-content {
@@ -1176,8 +1229,10 @@ window.addEventListener("load", syncPendingSubmissions);
     color: #666;
   }
 
-  .install-instructions.hidden {
-    display: none;
+  .install-copy {
+    margin-bottom: 14px;
+    font-size: 15px;
+    color: #444;
   }
 
   .install-step {
@@ -1230,22 +1285,54 @@ window.addEventListener("load", syncPendingSubmissions);
 <script>
   let deferredPrompt = null;
 
-  const installBtn = document.getElementById('installAppBtn');
+  const installBanner = document.getElementById('installBanner');
+  const installBannerBtn = document.getElementById('installBannerBtn');
+  const installBannerClose = document.getElementById('installBannerClose');
+
   const modal = document.getElementById('installModal');
   const closeModalBtn = document.getElementById('closeInstallModal');
+
   const iosInstructions = document.getElementById('iosInstructions');
   const androidInstructions = document.getElementById('androidInstructions');
   const genericInstructions = document.getElementById('genericInstructions');
   const androidInstallBtn = document.getElementById('androidInstallBtn');
 
-  const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-  const isStandalone =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
+  const DISMISS_KEY = 'installBannerDismissed';
+
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  }
 
   function isSafari() {
     const ua = window.navigator.userAgent.toLowerCase();
-    return ua.includes('safari') && !ua.includes('chrome') && !ua.includes('android');
+    return ua.includes('safari') &&
+      !ua.includes('crios') &&
+      !ua.includes('fxios') &&
+      !ua.includes('chrome') &&
+      !ua.includes('android');
+  }
+
+  function isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+  }
+
+  function shouldShowInstallUI() {
+    if (localStorage.getItem(DISMISS_KEY) === 'true') return false;
+    if (isStandalone()) return false;
+
+    if (isIOS() && isSafari()) return true;
+    if (deferredPrompt) return true;
+
+    return false;
+  }
+
+  function showBannerIfNeeded() {
+    if (shouldShowInstallUI()) {
+      installBanner.classList.remove('hidden');
+    } else {
+      installBanner.classList.add('hidden');
+    }
   }
 
   function resetInstructionPanels() {
@@ -1257,7 +1344,7 @@ window.addEventListener("load", syncPendingSubmissions);
   function openInstallModal() {
     resetInstructionPanels();
 
-    if (isIOS && isSafari()) {
+    if (isIOS() && isSafari()) {
       iosInstructions.classList.remove('hidden');
     } else if (deferredPrompt) {
       androidInstructions.classList.remove('hidden');
@@ -1272,22 +1359,29 @@ window.addEventListener("load", syncPendingSubmissions);
     modal.classList.add('hidden');
   }
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+  installBannerBtn.addEventListener('click', openInstallModal);
 
-    if (!isStandalone) {
-      installBtn.style.display = 'block';
-    }
+  installBannerClose.addEventListener('click', () => {
+    localStorage.setItem(DISMISS_KEY, 'true');
+    installBanner.classList.add('hidden');
   });
 
-  installBtn.addEventListener('click', openInstallModal);
   closeModalBtn.addEventListener('click', closeInstallModal);
 
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeInstallModal();
-    }
+    if (e.target === modal) closeInstallModal();
+  });
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showBannerIfNeeded();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    installBanner.classList.add('hidden');
+    closeInstallModal();
   });
 
   if (androidInstallBtn) {
@@ -1297,14 +1391,23 @@ window.addEventListener("load", syncPendingSubmissions);
       deferredPrompt.prompt();
       await deferredPrompt.userChoice;
       deferredPrompt = null;
+      installBanner.classList.add('hidden');
       closeInstallModal();
-      installBtn.style.display = 'none';
     });
   }
 
-  // Show button for iPhone Safari users who haven't installed yet
-  if (!isStandalone && isIOS && isSafari()) {
-    installBtn.style.display = 'block';
-  }
+  window.addEventListener('load', () => {
+    setTimeout(showBannerIfNeeded, 300);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      setTimeout(showBannerIfNeeded, 200);
+    }
+  });
+
+  window.addEventListener('pageshow', () => {
+    setTimeout(showBannerIfNeeded, 200);
+  });
 </script></body>
 </html>
