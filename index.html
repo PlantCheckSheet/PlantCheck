@@ -1039,5 +1039,272 @@ window.addEventListener("online", syncPendingSubmissions);
 window.addEventListener("load", syncPendingSubmissions);
 </script>
 <script src="app.js"></script>
-</body>
+<!-- Install button -->
+<button id="installAppBtn" class="install-btn" style="display:none;">
+  📲 Install for Offline Use
+</button>
+
+<!-- Install modal -->
+<div id="installModal" class="install-modal hidden">
+  <div class="install-modal-content">
+    <button id="closeInstallModal" class="install-close-btn" aria-label="Close">
+      ✕
+    </button>
+
+    <div class="install-header">
+      <div class="install-icon">📲</div>
+      <h2>Install Plant Checksheet</h2>
+      <p>Save this app to your home screen for quicker access and offline use.</p>
+    </div>
+
+    <div id="iosInstructions" class="install-instructions hidden">
+      <div class="install-step">
+        <div class="step-number">1</div>
+        <div class="step-text">
+          Tap the <strong>Share</strong> button in Safari
+          <div class="install-symbol">⬆️</div>
+        </div>
+      </div>
+
+      <div class="install-step">
+        <div class="step-number">2</div>
+        <div class="step-text">
+          Scroll down and tap <strong>Add to Home Screen</strong>
+        </div>
+      </div>
+
+      <div class="install-step">
+        <div class="step-number">3</div>
+        <div class="step-text">
+          Tap <strong>Add</strong> in the top-right corner
+        </div>
+      </div>
+    </div>
+
+    <div id="androidInstructions" class="install-instructions hidden">
+      <p style="margin-bottom:14px;">
+        Tap below to install the app on your device.
+      </p>
+      <button id="androidInstallBtn" class="android-install-btn">
+        Install App
+      </button>
+    </div>
+
+    <div id="genericInstructions" class="install-instructions hidden">
+      <p>
+        Use your browser menu and look for options like
+        <strong>Add to Home Screen</strong> or <strong>Install App</strong>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .install-btn {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 999;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #2c7a4b;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  .install-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 2000;
+  }
+
+  .install-modal.hidden {
+    display: none;
+  }
+
+  .install-modal-content {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    color: #222;
+    border-radius: 20px;
+    padding: 22px 18px 18px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+    position: relative;
+    font-family: Arial, sans-serif;
+  }
+
+  .install-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+  }
+
+  .install-header {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .install-icon {
+    font-size: 34px;
+    margin-bottom: 8px;
+  }
+
+  .install-header h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+  }
+
+  .install-header p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #666;
+  }
+
+  .install-instructions.hidden {
+    display: none;
+  }
+
+  .install-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f6f7f8;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+
+  .step-number {
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #2c7a4b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .step-text {
+    font-size: 15px;
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  .install-symbol {
+    margin-top: 8px;
+    font-size: 24px;
+  }
+
+  .android-install-btn {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #2c7a4b;
+    color: #fff;
+  }
+</style>
+
+<script>
+  let deferredPrompt = null;
+
+  const installBtn = document.getElementById('installAppBtn');
+  const modal = document.getElementById('installModal');
+  const closeModalBtn = document.getElementById('closeInstallModal');
+  const iosInstructions = document.getElementById('iosInstructions');
+  const androidInstructions = document.getElementById('androidInstructions');
+  const genericInstructions = document.getElementById('genericInstructions');
+  const androidInstallBtn = document.getElementById('androidInstallBtn');
+
+  const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  function isSafari() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return ua.includes('safari') && !ua.includes('chrome') && !ua.includes('android');
+  }
+
+  function resetInstructionPanels() {
+    iosInstructions.classList.add('hidden');
+    androidInstructions.classList.add('hidden');
+    genericInstructions.classList.add('hidden');
+  }
+
+  function openInstallModal() {
+    resetInstructionPanels();
+
+    if (isIOS && isSafari()) {
+      iosInstructions.classList.remove('hidden');
+    } else if (deferredPrompt) {
+      androidInstructions.classList.remove('hidden');
+    } else {
+      genericInstructions.classList.remove('hidden');
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeInstallModal() {
+    modal.classList.add('hidden');
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    if (!isStandalone) {
+      installBtn.style.display = 'block';
+    }
+  });
+
+  installBtn.addEventListener('click', openInstallModal);
+  closeModalBtn.addEventListener('click', closeInstallModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeInstallModal();
+    }
+  });
+
+  if (androidInstallBtn) {
+    androidInstallBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      closeInstallModal();
+      installBtn.style.display = 'none';
+    });
+  }
+
+  // Show button for iPhone Safari users who haven't installed yet
+  if (!isStandalone && isIOS && isSafari()) {
+    installBtn.style.display = 'block';
+  }
+</script></body>
 </html>
