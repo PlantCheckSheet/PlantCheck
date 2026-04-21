@@ -1297,8 +1297,6 @@ window.addEventListener("load", syncPendingSubmissions);
   const genericInstructions = document.getElementById('genericInstructions');
   const androidInstallBtn = document.getElementById('androidInstallBtn');
 
-  const DISMISS_KEY = 'installBannerDismissed';
-
   function isIOS() {
     return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
   }
@@ -1318,13 +1316,11 @@ window.addEventListener("load", syncPendingSubmissions);
   }
 
   function shouldShowInstallUI() {
-    if (localStorage.getItem(DISMISS_KEY) === 'true') return false;
-    if (isStandalone()) return false;
-
+    // Always show on iPhone Safari, even after install
     if (isIOS() && isSafari()) return true;
-    if (deferredPrompt) return true;
 
-    return false;
+    // For everything else, hide if already installed
+    return !isStandalone();
   }
 
   function showBannerIfNeeded() {
@@ -1362,8 +1358,12 @@ window.addEventListener("load", syncPendingSubmissions);
   installBannerBtn.addEventListener('click', openInstallModal);
 
   installBannerClose.addEventListener('click', () => {
-    localStorage.setItem(DISMISS_KEY, 'true');
     installBanner.classList.add('hidden');
+
+    // Re-show automatically on iPhone Safari after a short delay
+    if (isIOS() && isSafari()) {
+      setTimeout(showBannerIfNeeded, 3000);
+    }
   });
 
   closeModalBtn.addEventListener('click', closeInstallModal);
@@ -1380,7 +1380,12 @@ window.addEventListener("load", syncPendingSubmissions);
 
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
-    installBanner.classList.add('hidden');
+
+    // Hide on Android after install, keep on iPhone
+    if (!(isIOS() && isSafari())) {
+      installBanner.classList.add('hidden');
+    }
+
     closeInstallModal();
   });
 
