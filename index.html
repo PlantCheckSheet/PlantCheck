@@ -728,6 +728,8 @@ style="display:none; margin-top:10px;"
 <textarea id="defectNotes" name="defectNotes"></textarea>
 </div>
 
+<input type="hidden" name="hasDefect" id="hasDefect" value="No">
+
 <button id="submitBtn" class="submit-btn" type="submit">Complete Inspection</button>
 
 </form>
@@ -974,6 +976,7 @@ form.addEventListener("submit", async function (e) {
   const hasUnanswered = visibleChecks.some(input => input.value.trim() === "");
   const hasDefect = visibleChecks.some(input => input.value === "Defect");
   const notes = document.getElementById("defectNotes").value.trim();
+  document.getElementById("hasDefect").value = hasDefect ? "Yes" : "No";
 
   if (plantType.value === "") {
     alert("⚠ Please select a plant type before submitting.");
