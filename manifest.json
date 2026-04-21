@@ -1,0 +1,15 @@
+{
+  "name": "Plant Pre-Start Inspection",
+  "short_name": "PlantCheck",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#3f454b",
+  "theme_color": "#f4b400",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
