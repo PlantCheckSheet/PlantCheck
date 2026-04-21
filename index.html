@@ -849,6 +849,106 @@ function setCheck(btn, value) {
   updateProgress();
 }
 
+const STORAGE_KEY = "plantcheck_pending_submissions";
+
+function getFormObject() {
+  const formData = new FormData(form);
+  const data = {};
+
+  for (const [key, value] of formData.entries()) {
+    data[key] = value;
+  }
+
+  data.savedAt = new Date().toISOString();
+  data.submissionId = "sub_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+
+  return data;
+}
+
+function getPendingSubmissions() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function savePendingSubmission(data) {
+  const pending = getPendingSubmissions();
+  pending.push(data);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(pending));
+}
+
+function removePendingSubmission(submissionId) {
+  const pending = getPendingSubmissions().filter(item => item.submissionId !== submissionId);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(pending));
+}
+
+async function sendSubmission(data) {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (key !== "submissionId" && key !== "savedAt") {
+      formData.append(key, value);
+    }
+  });
+
+  const response = await fetch(form.action, {
+    method: "POST",
+    body: formData
+  });
+
+  const text = await response.text();
+
+  if (!response.ok || text.toLowerCase().includes("error")) {
+    throw new Error(text || "Submission failed");
+  }
+
+  return true;
+}
+
+async function syncPendingSubmissions() {
+  const pending = getPendingSubmissions();
+
+  if (pending.length === 0) return;
+
+  for (const item of pending) {
+    try {
+      await sendSubmission(item);
+      removePendingSubmission(item.submissionId);
+    } catch (error) {
+      console.log("Pending submission still offline or failed:", error.message);
+    }
+  }
+}
+
+function resetFormUI() {
+  form.reset();
+
+  document.querySelectorAll(".btn-group button").forEach(b => {
+    b.style.opacity = 1;
+  });
+
+  document.querySelectorAll("input[type='hidden']").forEach(i => {
+    i.value = "";
+  });
+
+  document.querySelectorAll(".check-item").forEach(item => {
+    item.classList.add("hidden-check");
+    item.classList.remove("defect-selected");
+  });
+
+  document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+
+  siteDropdown.value = "";
+  siteLocation.value = "";
+  customSite.value = "";
+  customSite.style.display = "none";
+  customSite.required = false;
+
+  updateProgress();
+}
+
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -868,7 +968,9 @@ form.addEventListener("submit", async function (e) {
     siteLocation.value = siteDropdown.value;
   }
 
-  const visibleChecks = Array.from(document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']"));
+  const visibleChecks = Array.from(
+    document.querySelectorAll(".check-item:not(.hidden-check) input[type='hidden']")
+  );
   const hasUnanswered = visibleChecks.some(input => input.value.trim() === "");
   const hasDefect = visibleChecks.some(input => input.value === "Defect");
   const notes = document.getElementById("defectNotes").value.trim();
@@ -897,63 +999,43 @@ form.addEventListener("submit", async function (e) {
   submitBtn.disabled = true;
   submitBtn.textContent = "Completing Inspection...";
 
+  const submissionData = getFormObject();
+
   try {
-    const formData = new FormData(form);
+    await sendSubmission(submissionData);
 
-    const response = await fetch(form.action, {
-      method: "POST",
-      body: formData
-    });
-
-    const text = await response.text();
-
-    if (!response.ok || text.toLowerCase().includes("error")) {
-      throw new Error(text);
-    }
-
+    popup.textContent = "Inspection Submitted Successfully ✔";
+    popup.style.background = "#2ecc71";
     popup.style.display = "block";
 
     setTimeout(() => {
       popup.style.display = "none";
-      form.reset();
-
-      document.querySelectorAll(".btn-group button").forEach(b => {
-        b.style.opacity = 1;
-      });
-
-      document.querySelectorAll("input[type='hidden']").forEach(i => {
-        i.value = "";
-      });
-
-      document.querySelectorAll(".check-item").forEach(item => {
-        item.classList.add("hidden-check");
-        item.classList.remove("defect-selected");
-      });
-
-      document.documentElement.style.setProperty("--bgImage",'url("excavator.jpg")');
-
-      siteDropdown.value = "";
-      siteLocation.value = "";
-      customSite.value = "";
-      customSite.style.display = "none";
-      customSite.required = false;
-
+      resetFormUI();
       submitBtn.disabled = false;
       submitBtn.textContent = "Complete Inspection";
-
-      updateProgress();
-
     }, 1800);
 
   } catch (error) {
-    alert("❌ Submission failed: " + error.message);
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Complete Inspection";
+    savePendingSubmission(submissionData);
+
+    popup.textContent = "No signal. Inspection saved on this phone and will upload later ✔";
+    popup.style.background = "#f39c12";
+    popup.style.display = "block";
+
+    setTimeout(() => {
+      popup.style.display = "none";
+      resetFormUI();
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Complete Inspection";
+    }, 2200);
   }
 });
 
 handleSiteChange();
 updateProgress();
+
+window.addEventListener("online", syncPendingSubmissions);
+window.addEventListener("load", syncPendingSubmissions);
 </script>
 
 </body>
