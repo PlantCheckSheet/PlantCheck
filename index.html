@@ -48,35 +48,53 @@ transition:background-image .4s ease;
 }
 
 .app-header{
-background:linear-gradient(90deg, rgba(244,180,0,0.97), rgba(224,164,0,0.97));
+background:linear-gradient(135deg, #f4b400, #e0a400);
 color:#111;
-border-bottom:3px solid rgba(0,0,0,0.14);
-box-shadow:0 8px 24px rgba(0,0,0,0.16);
+padding:20px 16px 26px;
+border-bottom-left-radius:28px;
+border-bottom-right-radius:28px;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
 text-align:center;
-padding:22px;
+position:relative;
 }
 
-.header-title p{
-margin:0;
-font-size:12px;
+.header-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.header-badge{
+background:rgba(255,255,255,0.25);
+padding:6px 12px;
+border-radius:999px;
+font-size:11px;
 font-weight:700;
 letter-spacing:1px;
-text-transform:uppercase;
 }
 
-.header-title h1{
-margin:0 0 4px 0;
-font-size:26px;
+.header-date{
+font-size:12px;
+font-weight:600;
+}
+
+.app-header h1{
+margin:6px 0 6px;
+font-size:24px;
+font-weight:800;
 }
 
 .header-sub{
 font-size:13px;
 font-weight:600;
+opacity:0.9;
 }
 
 .logo-section{
 text-align:center;
-padding:8px 0 0 0;
+padding:0;
+margin-top:-20px;
 }
 
 .logo-section img{
@@ -1043,6 +1061,12 @@ updateProgress();
 
 window.addEventListener("online", syncPendingSubmissions);
 window.addEventListener("load", syncPendingSubmissions);
+
+  const headerDate = document.getElementById("headerDate");
+
+const today = new Date();
+const options = { day: 'numeric', month: 'short', year: 'numeric' };
+headerDate.textContent = today.toLocaleDateString('en-GB', options);
 </script>
 <script src="app.js"></script>
 <!-- Install banner -->
