@@ -1109,7 +1109,12 @@ form.addEventListener("submit", async function (e) {
     }, 2200);
   }
 });
-
+document.querySelector("input[name='operator']").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    document.getElementById("siteDropdown").focus();
+  }
+});
 handleSiteChange();
 updateProgress();
 
