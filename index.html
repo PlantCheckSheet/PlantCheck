@@ -810,6 +810,116 @@ style="display:none; margin-top:10px;"
 <button id="submitBtn" class="submit-btn" type="submit">Complete Inspection</button>
 
 </form>
+  <form id="hiredPlantForm" class="card" method="POST" action="https://script.google.com/macros/s/AKfycbzjACREYNAtHTTKuPlx3vEMtxOFBY7lNM_ADSe9hkMsYbzy6libLTIvovt5KnXOEm74/exec">
+  <h2>Hired-In Plant Delivery Check</h2>
+  <p class="card-intro">Use this section when hired machines are delivered to site.</p>
+
+  <input type="hidden" name="action" value="hiredPlantDelivery">
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Checked By</label>
+      <input name="hiredOperator" required>
+    </div>
+
+    <div class="form-group">
+      <label>Site</label>
+      <input name="hiredSiteLocation" required>
+    </div>
+
+    <div class="form-group">
+      <label>Hire Company</label>
+      <input name="hireCompany" required>
+    </div>
+
+    <div class="form-group">
+      <label>Plant Type</label>
+      <input name="hiredPlantType" required>
+    </div>
+
+    <div class="form-group">
+      <label>Machine ID / Reg</label>
+      <input name="hiredMachineID" required>
+    </div>
+
+    <div class="form-group">
+      <label>Delivery Ref / Note No.</label>
+      <input name="deliveryRef">
+    </div>
+  </div>
+
+  <h2 style="margin-top:20px;">Delivery Condition</h2>
+
+  <select name="bodyworkCondition" required>
+    <option value="">Bodywork / Panels</option>
+    <option value="Good">Good</option>
+    <option value="Damaged">Damaged</option>
+  </select>
+
+  <select name="tyresTracksCondition" required>
+    <option value="">Tyres / Tracks</option>
+    <option value="Good">Good</option>
+    <option value="Damaged">Damaged</option>
+  </select>
+
+  <select name="glassMirrorsCondition" required>
+    <option value="">Glass / Mirrors</option>
+    <option value="Good">Good</option>
+    <option value="Damaged">Damaged</option>
+    <option value="N/A">N/A</option>
+  </select>
+
+  <select name="lightsBeaconsCondition" required>
+    <option value="">Lights / Beacons</option>
+    <option value="Good">Good</option>
+    <option value="Damaged">Damaged</option>
+    <option value="N/A">N/A</option>
+  </select>
+
+  <select name="attachmentsCondition" required>
+    <option value="">Attachments / Buckets</option>
+    <option value="Good">Good</option>
+    <option value="Damaged">Damaged</option>
+    <option value="N/A">N/A</option>
+  </select>
+
+  <select name="keysManualsCondition" required>
+    <option value="">Keys / Manuals Present</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+
+  <select name="fuelAdBlueCondition" required>
+    <option value="">Fuel / AdBlue Level</option>
+    <option value="Acceptable">Acceptable</option>
+    <option value="Low">Low</option>
+    <option value="N/A">N/A</option>
+  </select>
+
+  <select name="deliveryCondition" required>
+    <option value="">Overall Delivery Condition</option>
+    <option value="Accepted - No Damage">Accepted - No Damage</option>
+    <option value="Accepted - Damage Noted">Accepted - Damage Noted</option>
+    <option value="Rejected">Rejected</option>
+  </select>
+
+  <textarea name="deliveryDamageNotes" placeholder="Damage notes / comments"></textarea>
+
+  <h2 style="margin-top:20px;">Delivery Photos</h2>
+  <p class="card-intro">Take photos of all sides of the machine and any existing damage.</p>
+
+  <input type="file" accept="image/*" capture="environment" onchange="handleHiredPhoto(event,1)">
+  <input type="file" accept="image/*" capture="environment" onchange="handleHiredPhoto(event,2)">
+  <input type="file" accept="image/*" capture="environment" onchange="handleHiredPhoto(event,3)">
+  <input type="file" accept="image/*" capture="environment" onchange="handleHiredPhoto(event,4)">
+
+  <input type="hidden" name="hiredPhoto1" id="hiredPhoto1">
+  <input type="hidden" name="hiredPhoto2" id="hiredPhoto2">
+  <input type="hidden" name="hiredPhoto3" id="hiredPhoto3">
+  <input type="hidden" name="hiredPhoto4" id="hiredPhoto4">
+
+  <button class="submit-btn" type="submit">Submit Hired Plant Delivery Check</button>
+</form>
 </div>
 </div>
 
