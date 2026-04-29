@@ -1614,4 +1614,70 @@ headerDate.textContent = today.toLocaleDateString('en-GB', options);
     setTimeout(showBannerIfNeeded, 200);
   });
 </script></body>
+
+  <script>
+const hiredPlantForm = document.getElementById("hiredPlantForm");
+
+function handleHiredPhoto(event, number) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const img = new Image();
+
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const maxWidth = 900;
+      const scale = maxWidth / img.width;
+
+      canvas.width = maxWidth;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      document.getElementById("hiredPhoto" + number).value =
+        canvas.toDataURL("image/jpeg", 0.65);
+    };
+
+    img.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+hiredPlantForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const submitButton = hiredPlantForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting Delivery Check...";
+
+  try {
+    const formData = new FormData(hiredPlantForm);
+
+    const response = await fetch(hiredPlantForm.action, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await response.text();
+
+    if (!response.ok || text.toLowerCase().includes("error")) {
+      throw new Error(text);
+    }
+
+    alert("Hired plant delivery check submitted successfully.");
+    hiredPlantForm.reset();
+
+  } catch (error) {
+    alert("Error submitting hired plant delivery check: " + error.message);
+  }
+
+  submitButton.disabled = false;
+  submitButton.textContent = "Submit Hired Plant Delivery Check";
+});
+</script>
 </html>
