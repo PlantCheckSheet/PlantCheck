@@ -324,6 +324,20 @@ z-index:999;
 text-align:center;
 }
 
+.check-section{
+  display:none;
+}
+
+.check-section.active{
+  display:block;
+}
+
+.machine-type-card select{
+  font-weight:700;
+  border:2px solid var(--primary);
+  background:#fff;
+}
+
 @media (max-width:640px){
 .form-grid{
 grid-template-columns:1fr;
@@ -363,6 +377,18 @@ flex:1;
 <div class="container">
 <div class="form-shell">
 
+<div class="card machine-type-card">
+<h2>Select Machine Type</h2>
+<p class="card-intro">Choose whether this is a J.A.O machine daily check or a hired-in plant delivery check.</p>
+
+<select id="machineCheckType">
+<option value="">Select Check Type</option>
+<option value="jao">J.A.O Machine</option>
+<option value="hired">Hired-In Machine</option>
+</select>
+</div>
+
+<div id="jaoMachineSection" class="check-section">
 <form
 id="inspectionForm"
 method="POST"
@@ -810,6 +836,9 @@ style="display:none; margin-top:10px;"
 <button id="submitBtn" class="submit-btn" type="submit">Complete Inspection</button>
 
 </form>
+</div>
+
+<div id="hiredMachineSection" class="check-section">
   <form id="hiredPlantForm" class="card" method="POST" action="https://script.google.com/macros/s/AKfycbzjACREYNAtHTTKuPlx3vEMtxOFBY7lNM_ADSe9hkMsYbzy6libLTIvovt5KnXOEm74/exec">
   <h2>Hired-In Plant Delivery Check</h2>
   <p class="card-intro">Use this section when hired machines are delivered to site.</p>
@@ -922,6 +951,7 @@ style="display:none; margin-top:10px;"
 </form>
 </div>
 </div>
+</div>
 
 <div class="footer">Plant Inspection System</div>
 
@@ -954,6 +984,25 @@ const progressFill = document.getElementById("progressFill");
 const siteDropdown = document.getElementById("siteDropdown");
 const siteLocation = document.getElementById("siteLocation");
 const customSite = document.getElementById("customSite");
+const machineCheckType = document.getElementById("machineCheckType");
+const jaoMachineSection = document.getElementById("jaoMachineSection");
+const hiredMachineSection = document.getElementById("hiredMachineSection");
+
+machineCheckType.addEventListener("change", function(){
+  if(this.value === "jao"){
+    jaoMachineSection.classList.add("active");
+    hiredMachineSection.classList.remove("active");
+    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+  }else if(this.value === "hired"){
+    hiredMachineSection.classList.add("active");
+    jaoMachineSection.classList.remove("active");
+    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+  }else{
+    jaoMachineSection.classList.remove("active");
+    hiredMachineSection.classList.remove("active");
+    document.documentElement.style.setProperty("--bgImage", 'url("excavator.jpg")');
+  }
+});
 
 function handleSiteChange() {
   if (siteDropdown.value === "Other") {
@@ -1613,9 +1662,9 @@ headerDate.textContent = today.toLocaleDateString('en-GB', options);
   window.addEventListener('pageshow', () => {
     setTimeout(showBannerIfNeeded, 200);
   });
-</script></body>
+</script>
 
-  <script>
+<script>
 const hiredPlantForm = document.getElementById("hiredPlantForm");
 
 function handleHiredPhoto(event, number) {
@@ -1680,4 +1729,5 @@ hiredPlantForm.addEventListener("submit", async function(e) {
   submitButton.textContent = "Submit Hired Plant Delivery Check";
 });
 </script>
+</body>
 </html>
